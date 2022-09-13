@@ -1,0 +1,68 @@
+{% load static %}
+<div  class="vertical-center-7">
+    {% for item in popular  %}
+        <div class="">
+            <div class="mx-2 my-2 rounded" id="main_item3">
+                <a href="{% url 'products:detail' item.slug %}">
+                    {% if item.file %}
+                        <img src="{{item.file.url}}" class="d-block w-100 rounded-top">
+                    {% else %}
+                        <img src="{% static 'img/item.png '%}" class="d-block w-100 rounded-top">
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+          
+
+
+<script type="text/javascript">
+    
+
+       $(".vertical-center-7").slick({
+        //infinite: true,
+        rows:2,
+        autoplay:true,
+        slidesToShow:4,
+        speed: 1000,
+        slidesToScroll:4,
+        arrows: true,
+        nextArrow: '<i class="fa fa-arrow-right ik-next"></i>',
+        prevArrow: '<i class="fa fa-arrow-left ik-prev"></i>',
+        pauseOnFocus:true,
+        //edgeFriction:4.5,
+        //focusOnSelect:true,
+        //centerPadding:'100px',
+        //fade:true,
+        //centerMode:true,
+        //autoplaySpeed:1000,
+    
+        responsive: [
+        {
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 4,
+                slidesToScroll: 4,
+            }
+        },
+        {
+            breakpoint: 600,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                rows:4,
+                slidesToShow: 2,
+                slidesToScroll:2
+            }
+        }
+
+  ]
+        
+      });
+</script>

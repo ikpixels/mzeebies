@@ -1,0 +1,134 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'products:mainshop'%}">Item/s needed</a>
+
+      <div style="float:right;">
+         <a id="display_category" 
+            onclick="display_category();" 
+            href="javascript:void(0);">
+              <img src="{% static 'img/cat.png' %}" height="20">
+          </a>
+          <a id="hide_category" 
+             href="javascript:void(0);" 
+             onclick="hide_category();">
+              <img src="{% static 'img/cat2.png' %}" height="20">
+           </a>
+      </div>
+   </div><hr>
+</section>
+
+{% if user_error %}
+<div id="terms_error" class="text-center p-2 my-2 alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+     </button>
+    <p style="color:red;"><strong>{{user_error}}</strong></p>
+</div>
+{% endif %}
+
+
+
+
+<section class="py-2">
+   <div class="container">
+       <div  class="row">
+
+            <div class="col-sm-12 col-lg-2" id="main_category">
+                <div id="sidebar_category" class="p-2 rounded mb-2">
+                   <h4 style="color:orange;"><strong>Categories</strong></h4><hr>
+                      <a  href="{% url 'index:place_order_list'%}">All</a>
+                   {% for category in categories  %}
+                      <a id="{{category.category}}" onclick="backgroundcolor('{{title}}');" href="{% url 'index:place_order_list2' category %}">{{category}}</a>
+                   {% endfor %}
+                </div>
+            </div>
+             
+
+            <div class="col-sm-12 col-lg-10" >
+               <div class="row" id="main_shop_item">
+                   {% for item in order  %}
+                    
+                <div class="col-sm-12 col-lg-3 text-center">
+                     <div class="rounded p-2" style="background-color:#f2f2f2;box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);position:relative;"onclick="display_oder_place_detail('{{item.id}}');">
+                         <a class="close" href="javascript:void(0);">:</a>
+                         <p style="color:orange;"><strong>{{item.item}}</strong></p>
+                         <img src="{{item.file.url}}"  class="d-block w-100 rounded">
+                         <p>Budget : MK {{item.budget}}</p>
+                         <p>{{item.location}}</p>
+
+                         
+                     </div>
+                     <div class="p-2 rounded place_order_{{item.id}}" id="inner_place_order_area">
+
+                          <p><strong>Item code : {{item.orderNo}}</strong></p>
+                          <p style="color:white;">{{item.item2}}</p>
+                          <p>If you have this item let us know via whatsapp.Click whatsapp icon</p> 
+                          <hr><a onclick="display_oder_place_detail('{{item.id}}');" id="custom_btn" href="javascript:void(0);">Hide</a> 
+                      </div>
+
+                </div>
+
+               {% empty %}
+                   <div class="col-sm-12">
+                      {% include 'index/error.html' %}
+                   </div>
+               {% endfor %}
+               </div>
+
+
+               <!--________________pagination_______________________________-->
+           <div class="col-sm-12 my-4">
+               <div class="pagination">
+                <span class="step-links">
+                    {% if order.has_previous %}
+                        <a href="?page=1">&laquo;</a>
+                        <a href="?page={{ order.previous_page_number }}">
+                          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ order.number }} of {{order.paginator.num_pages }}.
+                    </span>
+
+                    {% if order.has_next %}
+                        <a href="?page={{order.next_page_number }}">
+                          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <a href="?page={{order.paginator.num_pages }}">&raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+           </div>
+<!--__________________________________________________________-->
+
+            </div>
+        </div>
+
+        <div style="position:fixed;left:10px;z-index:2;top:50%;">
+            <div  id="mywap" accesskey="265882935706"></div>
+        </div>
+
+    
+
+
+   </div>
+</section>
+
+
+
+{% endblock %}

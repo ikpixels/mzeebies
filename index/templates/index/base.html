@@ -1,0 +1,217 @@
+{% load static from staticfiles %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+   {% include 'index/top_static.html '%}
+</head>
+
+<body>
+
+
+<div class="text-center alert"  id="main_alert">
+    <div class="rounded" id="inner_main_alert">
+       <div class="rounded-top p-1" style="background-color:orange">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+       </button>
+          <p style="font-weight:bold;color:white;" id="inner_main_alert_hd"><strong></strong></p>
+          
+       </div>
+       <div class="p-4">
+           <p id="inner_main_alert_text">
+  
+          </p>
+       </div>
+    </div>
+</div>
+
+
+<div class=""  id="place_order_popup">
+    <div class="rounded" id="inner_place_order_popup">
+       <div class="rounded-top p-2 text-center" style="background-color:orange;">
+          <a href="javascript:void(0);" class="close" onmouseover="display_place_order_form();">x</a>
+            <h4 style="font-weight:bold;color:red;" id="inner_main_alert_hd"><strong></strong>Place your order here</h4>
+       </div>
+       
+        <div class="p-4" id="place_order_feedback_area">
+            <form action="{% url 'index:about' %}" method="GET" class="form-group" id="place_order_form_nt">
+                       {% csrf_token %}
+                <label class="text-left">Full name</label>
+                <input required="true" class="form-control" type="text" name="name">
+                <label>Location(District and area)</label>
+                <input required="true" class="form-control"  type="text" name="location">
+                <label>Whatsapp number</label>
+                <input required="true" class="form-control"  type="number" name="phone">
+
+                <label>Category</label>
+                <select required="true" class="form-control"  type="text" name="category">
+
+                  {% for option in options %}
+                      <option value="{{option}}">{{option}}</option>
+                  {% endfor %}
+                    
+                </select>
+
+                <label>Name products you want(Specify)</label>
+                <textarea required="true" class="form-control"  type="text" name="item"></textarea>
+                <label>Your budget</label>
+                <input required="true" class="form-control"  type="number" name="budget">
+                <button class="mt-2" style="border:none;" id="custom_btn">Place order</button>
+             </form>
+        </div>
+
+    </div>
+</div>
+
+<div class="p-2 " id="nav_menu" style="position:fixed;">
+       <button style="color:white;" onclick="hidenav();" type="button" class="close">
+        <span aria-hidden="true">×</span>
+     </button>
+    <div style="background-color:#222222;">
+       <a href="{% url 'index:index' %}">
+        <img src="{% static 'img/logo.png' %}" width="150">
+    </a>
+    </div>
+   <div>
+      <a href="{% url 'index:index'%}">Home</a>
+      <a href="{% url 'products:mainshop'%}">Shop</a>
+      <a href="{% url 'blog:blog'%}">Blog</a>
+      <a href="{% url 'music:music'%}">Music</a>
+      <a href="{% url 'index:place_order_list' %}">Needed item/s</a>
+      <a href="{% url 'index:about'%}">About</a>
+      <a href="{% url 'index:contact'%}">Contacts</a>
+      <a href="{% url 'cart:cart_view' %}">Your cart ( {{cart_count}} )
+      </a>
+      {% if user.is_authenticated  %}
+            {% if user.is_superuser  %}
+                    <hr>
+                    <a href="{% url 'account:dashboard'%}"></i>My account</a>
+                    <a href="{% url 'account:dashboard'%}">Orders</a>
+                    <a href="{% url 'account:Dashboard2' 'delivered'%}">
+                     Derevered orders</a><hr>
+                    <a href="{% url 'vendor:bill_verification'%}">Vendor bills</a>
+                    <a href="{% url 'cart:verify_p'%}">Mobile payments</a><hr>
+                    <a href="{% url 'products:category_v' %}">Add Categories</a>
+                    <a href="{% url 'products:upload_brand' %}">Add products brand</a>
+                    <a href="{% url 'music:add_youtube_feed'%}">Add youtube video</a>
+                    <a href="{% url 'vendor:vendor_db' %}">Vendor db</a>
+                    <a href="{% url 'index:main_needed_item_view'%}">Needed items</a>
+                    <a href="{% url 'vendor:agent' %}">Add agent</a><hr>
+                    <a href="/admin/">Admin</a>
+                {% else %}
+                    <hr>
+                    <a href="{% url 'account:customer_account'%}">My account</a>
+                    <a href="{% url 'account:customer_account'%}">Complete orders</a>
+                    <a href="{% url 'account:customer_account2' 'Delivered' %}">Delivered</a><hr>
+                {% endif %}
+
+                    {% if vendor_account %}
+                        <a href="{% url 'vendor:vendor_account'%}">Vendor account</a>
+
+                        {% if categories %}
+
+                          {% if user_bill.due_date %}
+                             <a href="{% url 'products:additem_msg'%}">Add product</a>
+                          {% else %}
+                              <a href="{% url 'account:bill'%}">Add product</a>
+                          {% endif %}
+
+                        {% endif %}
+
+                        {% if user_bill.due_date != None %}
+                          <a href="{% url 'blog:AddBlog' %}">Add Blog</a>
+                        {% else %}
+                          <a href="{% url 'account:bill'%}">Add Blog</a>
+                        {% endif %}
+                          <a href="{% url 'account:bill'%}">Pay bills</a>
+                    {% else %}
+                          <a href="{% url 'vendor:vendor'%}">Become our Vendor</a><hr>
+                    {% endif %}
+                   <a href="{% url 'account:logout_view'%}">Logout</a>
+        {% else %}
+            <a href="{% url 'account:google_login'%}"><i class="fa fa-user" aria-hidden="true"></i>Login</a>
+        {% endif %}
+   </div>
+</div>
+
+<a id="scroll_up_btn" href="javascript:void(0);">
+  <img src="{% static 'img/up_arrow.png'%}" height="64">
+</a>
+
+
+
+<div style="position:fixed;bottom:200px;left:10px;z-index:3;">
+    <a id="custome_btn" href="javascript:void(0);" onmouseover="display_place_order_form();">
+       <img id="order_btn_img" onmouseout="place_order2();" onmouseover="place_order();" src="{% static 'img/order_btn.png' %}" height="64">
+    </a>
+</div>
+
+
+<div id="diisplay_popup_advert_ajax">
+    <!--Advert and place orders popup here--->
+</div>
+
+
+{% if added_sucessfuly_msg %}
+<div id="outer_complete_msg">
+   <div id="complete_msg" class="alert">
+    <button type="button" class="close"  onclick="hide_alert();">
+        <span aria-hidden="true">×</span>
+     </button>
+     <p><strong style="color:green;">SUCCESS</strong></p>
+     <hr>
+    <p class="p-2 rounded" style="color:orange;"><strong>{{added_sucessfuly_msg}}</strong></p>
+</div>
+</div>
+{% endif %}
+
+
+{% block body %}
+
+{% endblock %}
+
+{% include 'index/subscripbe.html' %}
+{% include 'index/footer.html' %}
+
+{% include 'index/bottom_static.html '%}
+
+
+<!--<div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_vertical_style" style="right:0px; top:100px;">
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+</div>-->
+
+<div class="a2a_kit a2a_kit_size_32 a2a_floating_style a2a_default_style" style="bottom:20px; left:7%; transform:translateX(-50%);">
+    <a class="a2a_button_facebook"></a>
+    <a class="a2a_button_twitter"></a>
+    <a class="a2a_button_pinterest"></a>
+    <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+</div>
+
+<!--<script>
+var a2a_config = a2a_config || {};
+a2a_config.overlays = a2a_config.overlays || [];
+a2a_config.overlays.push({
+    services: ['pinterest', 'facebook', 'houzz', 'tumblr'],
+    size: '50',
+    style: 'horizontal',
+    position: 'top center'
+});
+</script>-->
+
+<script async src="https://static.addtoany.com/menu/page.js"></script>
+
+<script type="text/javascript">
+
+
+
+
+</script>
+
+</body>
+</html>

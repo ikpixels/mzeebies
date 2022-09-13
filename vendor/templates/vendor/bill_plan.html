@@ -1,0 +1,78 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'vendor:vendor' %}">Account</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'account:bill' %}">Plan</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Payment</a>
+    
+   </div><hr>
+</section>
+
+<section class="my-4">
+	<div class="container">
+		 <div class="row">
+       <div class="col-sm-12">
+          <div class="text-center">
+             <h4><strong>You selected {{title}} = MKW {{price}}</strong></h4><hr>
+          </div>
+       </div>
+		 	 <div class="col-sm-6">
+		 	 	 <div class="p-2 rounded" style="background-color:rgb(241,246,247);">
+					<div>
+						<h4 style="color:orange;">
+              <a href="https://www.tnm.co.mw/ui/tnm-october/index.php/mpamba">
+              <img src="{% static 'img/tnm.jpg' %}" class="rounded" width="30">
+            </a>
+            TNM Mpamba</h4>
+                    <ul>
+                       <li>Dial *444#</li>
+                       <li>Select 1 for send money</li>
+                       <li>Select 1 for TNM Mpamba</li>
+                       <li>Select 1 for send to wallet then enter the phone number <strong>0{{phone_number.mpamba_money_for_bill}}</strong>.</li>
+                    </ul><hr>
+                    <h4 style="color:orange;">
+                      <a href="https://www.tnm.co.mw/ui/tnm-october/index.php/mpamba">
+                      <img src="{% static 'img/airtel.jpg' %}" class="rounded" width="30">
+                       </a>
+                    Airtel Money</h4>
+                    <ul>
+                       <li>Dial *211#</li>
+                       <li>Select 2 for send money</li>
+                       <li>Select 1 for Airtel Number</li>
+                       <li>Select 1 for number then enter the phone number  <strong>0{{phone_number.airtel_money_for_bill}}</strong>.</li>
+                    </ul><hr>
+                    <p><strong>Using the reference number / transaction number of the payment mediums above kindly complete the form below.</strong></p>
+					</div>
+				</div>
+		 	 </div>
+		 	 <div class="col-sm-6">
+		 	 	 <div>
+		 	 	 	<form method="POST">
+		 	 	 		{% csrf_token %}
+                        {{form|crispy}}
+             <div class="rounded p-2 mb-2" style="background-color:rgb(241,246,247);">
+                <h4 style="color:orange;">Note</h4>
+                <p style="color:red;">If you paid less, we will not activate your account and we will not refund your money.Your account will be activated after verifing your payment.</p>
+             </div>
+             <button style="border:none;" id="custom_btn">Pay bill</button>
+		 	 	 	</form>
+		 	 	 </div>
+		 	 </div>
+		 </div>
+	</div>
+</section>
+
+{% endblock %}

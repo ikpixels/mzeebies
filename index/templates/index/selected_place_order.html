@@ -1,0 +1,27 @@
+<div id="alert_msg_nofication" style="position:fixed;bottom:100px;right:5px;z-index:100;display:none;width:200px;">
+    <div class="rounded" style="background-color:#f2f2f2;box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);">
+       <div class="p-2 rounded-top"  style="background-color:orange">
+          <a onclick="display_alert_msg_area();" class="close" href="javascript:void(0);">X</a>
+          <h4 style="color:white">{{selected_place_order.Type}}</h4>
+       </div>
+       <div class="p-2 rounded" >
+           
+          
+             <p class="text-center"><strong>{{selected_place_order.item}}</strong></p>
+       
+
+          {% if selected_place_order.link  %}
+            <a href="{{selected_place_order.link}}">
+               <img src="{{selected_place_order.file.url}}" class="d-block w-100 rounded">
+            </a>
+          {% else %}
+              <img src="{{selected_place_order.file.url}}" class="d-block w-100 rounded">
+          {% endif %}
+
+          {% if selected_place_order.budget %}
+          <p>Budget : MK {{selected_place_order.budget}}</p>
+          <a style="color:orange;" href="{% url 'index:place_order_list' %}">View all</a>
+          {% endif %}
+       </div>
+    </div>
+</div>

@@ -1,0 +1,223 @@
+{% extends "index/base.html"%}
+{% load static %}
+
+
+    
+{% block body %}
+
+<section style="background:url({% static 'img/slide-01.jpg'%});background-repeat:no-repeat;background-position: center center;background-size: cover;height:90vh;"><!--home slides/banner-->
+	{% include "index/carousel.html "%}
+</section>
+
+
+<section class="my-2" style="background-repeat:no-repeat;background-position: center center;background-size: cover;background:url({% static 'img/mainbg.png'%});">
+     <div class="container">
+           <div  class="music_ik">
+                     <div class="mx-2 rounded" style="position:relative;">
+                         <img src="{% static 'img/track2.jpg' %}" class="img-fluid rounded">
+                         <div class="rounded" id="home_banner2">
+                             <div class="p-1">
+                                 <h4 style="color:white;">Music Collection</h4>
+                                 <a href="{% url 'music:music' %}">Browse now</a>
+                             </div>
+                         </div>
+                     </div>
+                 {% for item in banner %}
+                     <div class="mx-2 rounded" style="position:relative;">
+                         <img src="{{item.image.url}}" class="img-fluid rounded">
+                         <div class="rounded" id="home_banner2">
+                             <div class="p-1">
+                                 <h4 style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">{{item.Category}} Collection</h4>
+                                 <a href="{% url 'products:mainshop2' item.Category %}">Shop now</a>
+                             </div>
+                         </div>
+                     </div>
+                 {% endfor %}
+            </div>
+     </div>
+</section>
+
+
+<section class="mt-0 mb-3 p-2" style="background-repeat:no-repeat;background-position: center center;background-size: cover;background:url({% static 'img/mainbg.png'%});">
+	<div class="container">
+        <div>
+            <h1>Product Overview</h1>
+        </div>
+		<div  class="vertical-center-3 home_index">
+            
+            {% for item in item12  %}
+                <div onmouseout="Quick_btn2('{{item.slug}}');" 
+                     onmouseover="Quick_btn('{{item.slug}}');">
+                    <div class="mx-2 item_price_tage my-2 rounded" id="main_item3">
+                    
+                        {% if item.file %}
+                        <img src="{{item.file.url}}" class="d-block w-100 rounded-top">
+                        {% else %}
+                        <img src="{% static 'img/item.png '%}" class="d-block w-100 rounded-top">
+                        {% endif %}
+
+                        <div class="px-1" class="">
+                            <p style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><strong>{{item}}</strong></p>
+                             <p><span style="color:red;"><strong>{{item.category.currency}} </strong></span><span style="color:orange;">{{item.price}}</span></p>
+                        </div>
+
+                        {% if item.new_price is not none %}
+                        <div  style="position:absolute;top:2px; left:2px"> 
+                           <small class="p-1 rounded" style="background:red;color:white;" class="round-circle;">{{item.discount}}% off</small>
+                        </div>
+                        {% endif %}
+
+                        {% if item.item_status == "New" %}
+                        <div class=""  style="position:absolute;top:2px; right:2px"> 
+                           <small class="p-1 rounded" style="background:green;color:white;" class="round-circle;">{{item.item_status}}</small>
+                        </div>
+                        {% endif %}
+
+                        <div class="item_price_tage2" id="{{item.slug}}">
+                            <a style="width:100%;" 
+                               class="text-center view2" id="custom_btn" href="{% url 'products:detail' item.slug %}">Quick view</a> 
+                               
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        
+	</div>
+</section>
+
+<section style="background-repeat:no-repeat;background-position: center center;background-size: cover;background:url({% static 'img/mainbg.png'%});">
+    <div class="container">
+        <div class="row">
+
+             <div class="col-sm-12 col-lg-4">
+                 
+                 <div class="multiple-items" id="deals">
+
+                    <div class="rounded p-2 mb-2" accesskey="{{item.id}}">
+                        <h2 class="text-center" style="color:red;"><strong>
+                            MzeeBies.com
+                        </strong></h2><hr>
+                        <img src="{% static 'img/hero-banner.png '%}" class="d-block w-100 rounded-top">
+                     </div>
+
+                     {% for item in time %}
+                     {% if item.timer %}
+                     <div class="rounded p-2 mb-2" accesskey="{{item.id}}">
+                        <h2 class="text-center" style="color:red;"><strong>
+                            Exclusive Hot Deal Ends Soon!
+
+                        </strong></h2><hr>
+                        <a href="{% url 'products:detail' item.slug %}">
+                        {% if item.file %}
+                        <img src="{{item.file.url}}" class="d-block w-100 rounded-top">
+                        {% else %}
+                        <img src="{% static 'img/item.png '%}" class="d-block w-100 rounded-top">
+                        {% endif %}
+                        </a> 
+                        <div style="position:absolute;bottom:10px;z-index:2,">
+                           {% include 'products/timer2.html' %}
+                       </div>
+                     </div>
+                      
+                      {% endif %}
+                     {% empty %}
+                         <img src="{% static 'img/hero-banner.png '%}" class="d-block w-100 rounded-top">
+                     {% endfor %}
+                 </div>
+             </div>
+
+             <div class="col-sm-12 col-lg-8">
+            <div class="more_items rounded p-2">
+            <div class="text-right" id="inner_menu">
+                <a id="Popular" onclick="Popular('Popular');" 
+                   style="color:red;" class="mr-2"  href="javascript:void(0);">Popular</a>
+                <a id="top_seller" onclick="top_seller('top_seller');" class="mr-2"  href="javascript:void(0);">Top seller</a>
+                <a id="top_rated" onclick="top_rated('top_rated');" 
+                   href="javascript:void(0);">Top rated</a>
+            </div><hr>
+
+            <div class="main_item3">
+                <div  class="vertical-center-3">
+                    {% for item in popular  %}
+                    <div class="">
+                        <div class="mx-2 my-2 rounded" id="main_item3">
+                            <a href="{% url 'products:detail' item.slug %}">
+                                {% if item.file %}
+                        <img src="{{item.file.url}}" class="d-block w-100 rounded-top">
+                        {% else %}
+                        <img src="{% static 'img/item.png '%}" class="d-block w-100 rounded-top">
+                        {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            </div>
+             </div>
+        </div>
+    </div>
+
+</section>
+
+{% if selected_item_count >= 5 %}
+<section class="my-2" style="background-color:#f2f2f2">
+   <div class="container">
+       <h1 class="text-center">{{selected_category}}</h1>
+       <div  class="brand_ik">
+            
+            {% for item in selected_item  %}
+                <div class="mx-2 my-2">
+                    <div class="mx-2 rounded text-center" style="box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);">
+                        <a href="{% url 'products:detail' item.slug %}">
+                          <img src="{{item.file.url}}" class="img-fluid rounded">
+                        </a> 
+                        <p><strong>{{item}}</strong></p>
+                        {% if item.new_price %}
+                             
+                             <p><span style="color:red;"><strong>
+                             {{item.category.currency}} </strong></span><span style="color:orange;">{{item.new_price}}</span></p>
+                             {% else %}
+                             <p><span style="color:red;"><strong>
+                             {{item.category.currency}} </strong></span><span style="color:orange;">{{item.price}}</span></p>
+                             {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+   </div>
+</section>
+{% endif %}
+
+ <section class="rounded mt-4 p-2" style="background:url({% static 'img/music_bg.png'%});background-repeat:no-repeat;background-position: center center;background-size: cover;">
+          <div class="container">
+            <h1 class="text-center">Music</h1>
+            <div  class="music_ik">
+              {% for track in track  %}
+                <div class="mx-2 my-2">
+                    <div class="mx-2 rounded p-2" style="box-shadow:0px 8px 16px 0px rgba(0,0,0,0.1);">
+                         <p style="color:orange;white-space:nowrap;overflow:hidden;text-overflow: ellipsis"><strong>{{track}}</strong></p>
+                      <a href="{% url 'music:music_detail' track.slug %}">
+                          <img src="{{track.file.url}}" class="d-block w-100 rounded-top">       
+                      </a>
+                      <p style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;color:white;">{{track.artist}}</p>
+                    </div>
+                </div>
+              {% endfor %}
+            </div>
+              <div class="text-center my-4">
+                   <a class="p-2"  id="custom_btn" href="{% url 'music:music' %}">View all Music</a>
+              </div>
+          </div>
+</section>
+
+
+
+{% if brand %}
+{% include 'products/brand.html'%}
+{% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load ratings %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+
+
+
+
+
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'music:album_list' album.category %}">Album</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Detail</a>
+
+
+      <div style="float:right;">
+         <a id="display_category" 
+            onclick="display_category();" 
+            href="javascript:void(0);">
+              <img src="{% static 'img/cat.png' %}" height="20">
+          </a>
+          <a id="hide_category" 
+             href="javascript:void(0);" 
+             onclick="hide_category();">
+              <img src="{% static 'img/cat2.png' %}" height="20">
+           </a>
+      </div>
+    
+   </div><hr>
+</section>
+
+
+
+<section class="my-2">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-2" id="main_category">
+				<div id="music_category">
+					 {% include 'music/category.html' %}
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-lg-10">
+				<section>
+
+
+				    <div class="row">
+				    	 <div class="col-sm-12 col-lg-6">
+                    <div class="my-2">
+                      <img src="{{album.file.url}}" class="d-block w-100 rounded-top">
+                    </div>
+               </div>
+               <div class="col-sm-12 col-lg-6">
+                  <div>
+                      <h1 style="color:orange">{{album}}</h1>
+                      <h3>By {{album.artist}}</h3>
+                      <small>Posted {{album.whenpublished}}</small>
+                      <p>Song/s : {{album_len}} | <a style="color:orange;" href="#song22">view tracks</a></p>
+                      <hr>
+                      {% ratings album %}
+                      <hr>
+                      {% if album.vendor.user == request.user%}
+                      <div class="my-4">
+                          <a  id="custom_btn" href="{% url 'music:add_track2' album.slug %}">Add album track</a>
+                      </div>
+                      {% endif %}
+                  </div>
+               </div>
+				    </div>
+				</section>
+
+
+        <section class="rounded" style="background-color:rgb(241,246,247);"><a name="song22"></a>
+          <div class="">
+            <div  class="music_ik">
+              {% for track in track  %}
+                <div class="mx-2 my-2">
+                    <div class="mx-2 rounded p-2" style="box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);">
+                         <p style="color:orange;"><strong>{{track}}</strong></p>
+
+                      {% if music.allowed %}
+                      <a href="{% url 'music:music_detail' track.slug %}">
+                          <img src="{{track.file.url}}" class="d-block w-100 rounded-top">       
+                      </a>
+                      {% else %}
+                      <img src="{{track.file.url}}" class="d-block w-100 rounded-top">
+                      {% endif %}
+
+                      <audio class="d-block w-100 rounded-bottom" id="ik_audio" controls="controls">
+                        <source src="{{track.mp3.url}}" type="audio/mpeg">
+                      </audio>
+                    </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+		   </div>
+	</div>
+</section>
+
+{% include 'music/products.html' %}
+
+{% include 'music/video_feed.html' %}
+
+{% endblock %}

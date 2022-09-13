@@ -1,0 +1,139 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'blog:blog' %}">Blog</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Blog detail</a>
+
+      <div style="float:right;">
+         <a id="display_category" 
+            onclick="display_category();" 
+            href="javascript:void(0);">
+              <img src="{% static 'img/cat.png' %}" height="20">
+          </a>
+          <a id="hide_category" 
+             href="javascript:void(0);" 
+             onclick="hide_category();">
+              <img src="{% static 'img/cat2.png' %}" height="20">
+           </a>
+      </div>
+    
+   </div><hr>
+</section>
+
+
+<section class="my-2" style="background-repeat:no-repeat;background-position: center center;background-size: cover;background:url({% static 'img/mainbg.png'%});">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-2" id="main_category">
+				{% include 'blog/category.html' %}
+			</div>
+			<div class="col-sm-12 col-lg-10">
+				   <div class="row">
+				   	   <div class="col-sm-12 col-lg-8">
+				   	   	  <div>
+				   	   	  	<h4><strong>{{blog}}</strong></h4>
+				   	   	  	 <img src="{{blog.image.url}}" class="d-block w-100  text-center rounded">
+				   	   	  	 <p>{{blog.body|safe}}</p>
+				   	   	  	 
+				   	   	  </div>
+
+                          <hr>
+                          <a id="comment_btn" href="javascript:void(0);">Comments/s ({{blog.comment_num}})</a>
+				   	   	  <div class="my-2 Comment_content" id="Comment_content" >
+                            <h4 style="color:orange;"><strong>Comment/s ({{blog.comment_num}})</strong></h4>
+                            {% for comment in comment %}
+				   	   	  	 <div class="media my-2 rounded p-2" style="background-color:rgb(241,246,247);">
+
+				   	   	  	 	  <a class="pull-left mr-2" href="#">
+				   	   	  	 	  	 <img class="media-object rounded-circle" src="{% static 'img/pd.png' %}">
+				   	   	  	 	  </a>
+				   	   	  	 	  <div class="media-body">
+				   	   	  	 	  	 <p>{{comment.body}}</p>
+				   	   	  	 	  	 <small>{{comment}} | {{comment.whenpublished}}</small>
+				   	   	  	 	  </div>
+				   	   	  	 </div>
+				   	   	  	 {% empty %}
+				   	   	  	   <div class="my-2 rounded p-2" style="background-color:rgb(241,246,247);">
+				   	   	  	   	    <p style="color:red;">Comment first....</p>
+				   	   	  	   </div>
+				   	   	  	 {% endfor %}
+
+				   	   	  	 <form method="POST"  role="form" id="Comment_Form" action="{% url 'blog:blog_detail' blog.slug %}">
+				   	   	  	 	 {% csrf_token %}
+				   	   	  	 	 <div class="form-group">
+				   	   	  	 	 	 <label style="color:orange;">Full Name</label>
+				   	   	  	 	 	 <input required="true" class="form-control" type="text" name="name">
+				   	   	  	 	 </div>
+				   	   	  	 	 <div class="form-group">
+				   	   	  	 	 	 <label style="color:orange;">Comment</label>
+				   	   	  	 	 	 <textarea required="true" name="comment" class="form-control"></textarea>
+				   	   	  	 	 </div>
+				   	   	  	 	 <button style="border:none;" class="p-2" id="custom_btn">Comment</button>
+				   	   	  	 </form>
+				   	   	  </div>
+                          <hr>
+
+				   	   </div>
+				   	   <div class="col-sm-12 col-lg-4">
+				   	   	   <img src="{{blog.vendor.file.url}}" class="rounded-circle mt-5" height="64">
+				   	   	   <p style="color:orange;"><strong>By {{blog.vendor}}</strong></p>
+				   	   	   <p>Category : {{blog.categorys}}</p>
+				   	   	   <p>Posted {{blog.whenpublished}}</p>
+
+                           <a id="custom_btn" class="p-2" href="{% url 'products:mainshop2' blog.vendor.fullName %}">Visit my shop</a><hr>
+
+				   	   	   <div class="rounded p-2 alert" style="background-color:rgb(241,246,247);">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                <p>Lets chat on whatsapp </p>
+                                <div id="mywap" accesskey="{{blog.vendor.phoneWapNum}}"></div>
+                 
+                             </div>
+
+                             <div>
+                             	<img src="{% static 'img/hero-banner.png '%}" class="d-block w-100 rounded-top">
+                             </div>
+				   	   </div>
+				   </div>
+
+			</div>
+			
+		</div>
+        
+        {% if related %}
+		<div class="">
+			<div class="text-center">
+				<h4 style="">Related Article</h4><hr>
+			</div>
+			<div class="row">
+                {% for blog in related %}
+                      <div class="col-sm-12 col-lg-4 my-1">
+                      	 <div>
+                      	 	<a href="{% url 'blog:blog_detail' blog.slug %}">
+                      	 		<img src="{{blog.image.url}}" class="d-block w-100 rounded">
+                      	 	</a>
+                      	 	<h4>{{blog}}</h4>
+                      	 </div>
+                      </div>     	 
+                {% endfor %}            	
+           </div>
+		</div>
+		{% endif %}
+	</div>
+</section>
+
+
+{% endblock %}

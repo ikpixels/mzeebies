@@ -1,0 +1,65 @@
+<div id="billing_info">
+    <h4 class="mb-2" style="color:orange;"><strong>Billing Details</strong></h4><hr>
+		 	  	  	
+                        <div class="row mb-1">
+
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="First name" id="billing_first_name" name="first_name">
+                                <p style="color:red;" id="billing_first_name_error"></p>
+                            </div>
+
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Last name" name="last_name" id="billing_last_name">
+                                <p style="color:red;" id="billing_last_name_error"></p>
+                            </div>
+
+                        </div>
+                        <label>State / Country</label>
+                        <select class="form-control" id="country" name="country">
+                        {% include 'cart/countries.html' %}
+                        </select>
+                        <label>Street Address</label>
+                        <div class="row my-1">
+
+                            <div class="col">
+                                <input required="true" type="text" class="form-control" placeholder="House number and street name" name="house">
+                            </div>
+
+                            <div class="col">
+                                <input name="suit" type="text" class="form-control" placeholder="Appartment,suit,unite etc">
+                            </div>
+
+                        </div>
+
+                        <div class="row my-1">
+
+                            <div class="col">
+                            	<label>Town / City</label>
+                                <input name="town" type="text" class="form-control" id="billing_city">
+                                <p style="color:red;" id="billing_city_error"></p>
+                            </div>
+
+                            <div class="col">
+                            	<label>Postcode / ZIP *</label>
+                                <input name="zip" type="text" class="form-control">
+                            </div>
+
+                        </div>
+
+                        <div class="row my-1">
+
+                            <div class="col">
+                            	<label>Phone</label>
+                                <input name="phone" type="number" class="form-control" id="billing_phone">
+                                <p style="color:red;" id="billing_phone_error"></p>
+                            </div>
+
+                            <div class="col">
+                            	<label>Email</label>
+                                <input id="billing_email" name="email" type="email" class="form-control">
+                                <p style="color:red;" id="billing_email_error"></p>
+                            </div>
+
+                        </div>
+                    
+</div>

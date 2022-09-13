@@ -1,0 +1,831 @@
+body{
+	overflow-x:hidden;
+	width:100%;
+	color: #222222;
+	font-family: 'Noto Serif', serif;
+}
+
+body p{
+	font-family: 'Noto Serif', serif;
+}
+
+body h1{
+  font-family: 'Pattaya', sans-serif;
+}
+body h2{
+  font-family: 'Pattaya', sans-serif;
+}
+.music_detail_button{
+	position: absolute;
+	display: none;
+	top:10%;
+	left:0px;
+	width:100%;
+	height: 100%;
+	z-index:1px;
+}
+#main_alert{
+	position:fixed;
+	background-color:rgba(0,0,0,0.1);
+	width:100%;
+	height:100%;
+	z-index:100;
+	display:none;	
+}
+#inner_main_alert{
+	 position:relative;
+	 top:40%;
+	 margin:auto;
+     width:50%;
+     background-color:white;
+	 box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);	
+}
+#inner_main_alert_text{
+	color: red;
+	font-weight: bold;
+}
+.main_music_outer{
+   position: relative;
+}
+.main_music_inner{
+	position: absolute;
+	z-index: 1;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	display: none;
+	background-color:orange;
+}
+#music_download_html{
+	position:fixed;
+	background-color:rgba(0,0,0,0.0);
+	width:100%;
+	height:100%;
+	z-index:100;
+	display:none;
+}
+#inner_music_download_html{
+	position:relative;
+	 top:0%;
+	 margin:auto;
+     width:50%;
+     background-color:white;
+	 box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+#music_video_html{
+	position:fixed;
+	background-color:rgba(0,0,0,0.0);
+	width:100%;
+	height:100%;
+	z-index:100;
+	display: none;
+	
+}
+#inner_music_video_html{
+	position:relative;
+	 top:0%;
+	 margin:auto;
+     width:50%;
+     background-color:white;
+	 box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.invalid-feedback{
+	color: red;
+}
+#payment_methods_icon a{
+	float:left;
+}
+#Comment_content{
+	display: none;
+}
+#comment_btn{
+	color: orange;
+	font-weight: bold;
+}
+#comment_btn:hover{
+	text-decoration: none;
+	color: red;
+}
+#top_youtube_btn{
+	position: absolute;
+	width: 100%;
+	height:50%;
+	top:0px;
+	z-index: 1;
+}
+#edit_delete li{
+   list-style: none;
+}
+#edit_delete li button{
+	border: none;
+	background: rgba(0,0,0,0.1);
+	color: orange;
+}
+#shop_item_deals a{
+	font-size:10px;
+	border: 1px solid orange;
+}
+#shop_item_deals2 a{
+	font-size:20px;
+	font-weight: bold;
+	border: 1px solid orange;
+	background-color:rgba(255,255,255,0.5);
+	color:black;
+}
+#timer a{
+	font-size:20px;
+	font-weight: bold;
+	border: 1px solid orange;
+	color:black;
+}
+
+.ik-prev{
+	color: red;
+}
+.ik-next{
+	color: red;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+#rejected_or_not_status a{
+	color: white;
+	font-weight: bold;
+	background-color: red;
+}
+#rejected_or_not_status a:hover{
+	text-decoration: none;
+}
+#music_category a{
+	display: block;
+	color: black;
+	
+}
+#music_category a:hover{
+	color:orange;
+	text-decoration: none;
+}
+#blog_category a{
+	display: block;
+	color: black;
+	font-weight: bold;
+}
+#blog_category a:hover{
+	color:orange;
+	text-decoration: none;
+}
+
+.blog_content{
+	
+}
+.blog_content2{
+	position:absolute;
+	z-index: 1;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.3);
+}
+
+#make_deal{
+  background: orange;
+  color: white;
+  font-weight: bold;
+}
+#make_deal:hover{
+	text-decoration: none;
+	background-color:red;
+	
+}
+#due_date_time a{
+	color: green;
+	font-weight: bold;
+	border: 1px solid orange;
+}
+#due_date_time a:hover{
+	text-decoration: none;
+}
+#scroll_up_btn{
+	position:fixed;
+	bottom:20px;
+	right:10px;
+	display: none;
+	z-index: 3;
+}
+
+
+#sold_item_btn{
+	position:fixed;
+	bottom:150px;
+	right:10px;
+	z-index: 3;
+}
+
+#scroll_up_btn:hover{
+	text-decoration: none;
+}
+#id_image{
+	border:none;
+}
+#formUpload input{
+	border: 2px solid black;
+	height: 40px;
+	border-radius: 0px;
+}
+#formUpload input:hover{
+	border: 2px solid orange;
+}
+#formUpload select{
+	border: 2px solid black;
+	height: 40px;
+	border-radius: 0px;
+}
+#formUpload select:hover{
+	border: 2px solid orange;
+}
+#formUpload textarea{
+	border: 2px solid black;
+	border-radius: 0px;
+}
+#formUpload textarea:hover{
+	border: 2px solid orange;
+}
+#dashboard_menu{
+	background-color:orange;
+}
+#dashboard_menu h4{
+	color: white;
+}
+#dashboard_menu a{
+	display:block;
+	color:white;
+	font-weight: bold;
+	
+}
+#dashboard_menu a:hover{
+	text-decoration: none;
+	color: red;
+}
+#dashboard_content{
+   background-color:rgb(241,246,247);
+}
+.logout_menu{
+	position: relative;
+}
+.logout_content{
+	position: absolute;
+	z-index: 3;
+	background: white;
+	box-shadow: 0px 16px 8px 0px rgba(0,0,0,0.2);
+	width: 100px;
+	display: none;
+}
+#bill_plan{
+	background-color:rgb(241,246,247);
+}
+
+#bill_plan li{
+	list-style: none;
+}
+.logout_menu:hover .logout_content{
+	display:block;
+}
+#account_form input{
+	border: 2px solid black;
+	border-radius:0;
+	height:40px;
+}
+#account_form input:hover{
+	border: 2px solid orange;
+}
+#sidebar_category{
+	background-color:rgb(241,246,247);
+}
+#sidebar_category a{
+	display: block;
+	color: black;
+}
+#sidebar_category a:hover{
+	text-decoration: none;
+	color: orange;
+}
+
+#subscr_info p{
+	background-color:rgba(1,1,1,0.2);
+	border-radius:5px;
+	padding: 5px;
+}
+#outer_complete_msg{
+	position:fixed;
+	background-color:rgba(0,0,0,0.1);
+	width:100%;
+	height:100%;
+	z-index:100;
+	
+}
+#complete_msg{
+	 position:relative;
+	 top:40%;
+	 margin:auto;
+     width:50%;
+     background-color:white;
+	 box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+	
+}
+.agent_info{
+	position: relative;
+	
+}
+.agent_info_detail{
+	position: absolute;
+	z-index: 2;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	display: none;
+	background-color:orange;
+}
+#Subscribe_btn{
+	color: white;
+	font-weight: bold;
+}
+#Subscribe_btn:hover{
+	text-decoration: none;
+	color: orange;
+}
+
+#Unsubscribe_btn{
+	color: white;
+}
+#Unsubscribe_btn:hover{
+	text-decoration: none;
+	color: orange;
+}
+
+#subscribe{
+	padding-top:100px;
+	padding-bottom:100px;
+	background: red;
+}
+#subscribe h4{
+	color:orange;
+}
+#subscribe input{
+	width: 100%;
+	height:50px;
+	background: rgba(0,0,0,0.2);
+	border:2px solid white;
+	color: white;
+	border-radius:2px;
+}
+#subscribe input:hover{
+	border: 2px solid orange;
+}
+#view_item_msg{
+	color: orange;
+	font-weight: bold;
+}
+#view_item_msg:hover{
+	text-decoration: none;
+	color: red;
+}
+#shop_menu{
+	background-color:red;
+	box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+} 
+#shop_menu a{
+	color:black;
+}
+#Welocome_msg{
+	padding-top:200px;
+	padding-bottom:200px;
+}
+#shop_menu:hover{
+	text-decoration:none;
+}
+#search_menu{
+	background-color:#f2f2f2;
+	display:none;
+} 
+#search_menu input{
+	width: 100%;
+	border:none;
+}
+#custom_cart_btn{
+	background-color:red;
+	border: none;
+	padding: 5px;
+	font-weight: bold;
+	color:white;
+}
+#custom_cart_btn:hover{
+	background-color:orange;
+}
+#custom_btn3{
+	background-color:orange;
+	border: none;
+	padding: 5px;
+	font-weight: bold;
+	color:white;
+}
+#custom_btn3:hover{
+	text-decoration: none;
+	background-color:green;
+}
+#custom_btn{
+	background-color:red;
+	padding: 5px;
+	font-weight: bold;
+	color:white;
+}
+#send{
+	background-color:red;
+	padding: 5px;
+	font-weight: bold;
+	color:white;
+	border: none;
+}
+#custom_btn:hover{
+   text-decoration:none;
+   background-color:orange;
+}
+
+#send:hover{
+   text-decoration:none;
+   background-color:orange;
+}
+
+#custom_btn2{
+	border: 2px solid red;
+	padding: 5px;
+	font-weight: bold;
+	color:black;
+}
+#custom_btn2:hover{
+   text-decoration:none;
+   background-color:red;
+}
+#custom_btn7{
+	border: 2px solid orange;
+	padding: 5px;
+	font-weight: bold;
+	color:black;
+}
+#custom_btn7:hover{
+   text-decoration:none;
+   background-color:orange;
+}
+#home_slide{
+	padding-top:100px;
+	padding-bottom:100px;
+}
+#ik_modal{
+	display: none;
+}
+#inner_nav a{
+	color: orange;
+	font-weight:bold;
+
+}
+#inner_nav a:hover{
+	color:red;
+	text-decoration:none; 
+}
+#header_contacts a{
+	font-weight:bold;
+	color: black;
+}
+#header_contacts a:hover{
+	text-decoration: none;
+	color: orange;
+}
+#nav_menu{
+	position: absolute;
+	z-index: 3;
+	height: 100%;
+	background:white;
+	display: none;
+	overflow-y: scroll;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+#nav_menu a{
+	display: block;
+	padding:5px;
+	color:black;
+}
+#nav_menu a:hover{
+	text-decoration: none;
+	color: red;
+}
+#detail_btn a{
+	color:orange;
+	font-weight:bold;
+}
+#detail_btn a:hover{
+	color: red;
+	text-decoration:none;
+}
+
+#cart_btn{
+	background-color:red;
+	padding: 5px;
+	color: white;
+	font-weight:bold;
+	border:none;
+}
+#cart_btn:hover{
+	background-color: orange;
+	text-decoration:none;
+}
+#main_item3{
+	border: 1px solid black;
+}
+#Dicription{
+	display: none;
+}
+#Review{
+	display: none;
+}
+#home_banner{
+	border: 1px solid black;
+	position: relative;
+}
+#home_banner2{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height:100%;
+	background-color:rgba(0,0,0,0.1);
+}
+#home_banner2 a{
+	color:red;
+	font-weight:bold;
+}
+#home_banner2 a:hover{
+	text-decoration: none;
+	color:white;
+}
+.menu_bar{
+	position: relative;
+}
+
+.option_cart_form3 select{
+	display:block;
+	width:100%;
+	height:40px;
+	border: 2px solid black;
+}
+.option_cart_form3 select:hover{
+	border: 2px solid orange;
+}
+.option_cart_form3 input{
+	display:block;
+	width:200px;
+	height:40px;
+}
+#Billing_form input{
+	height:40px;
+	border: 2px solid black;
+}
+#Billing_form input:hover{
+	border: 2px solid orange;
+}
+#Billing_form select{
+	height:40px;
+	border: 2px solid black;
+}
+
+#Billing_form select:hover{
+	border: 2px solid orange;
+}
+#inner_menu a{
+	color: orange;
+	font-weight: bold;
+}
+#inner_menu a:hover{
+	text-decoration:none;
+	color:red;
+}
+#footer{
+	color:white;
+	background-color: #222222; 
+}
+
+#footer a{
+	color:white; 
+	display: block;
+}
+#footer a:hover{
+	text-decoration: none;
+	color: orange;
+	font-weight: bold;
+}
+
+	
+}
+#inner_terms_error{
+	position: relative;
+	top:20%;
+	background-color: white;
+	width:50%;
+	margin: auto;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+#removed_suc{
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+#deals{
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.more_items{
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+#contact_form input{
+	height:40px;
+	border: 2px solid black;
+}
+#contact_form input:hover{
+	border: 2px solid orange;
+}
+#contact_form textarea{
+	height:100px;
+	border: 2px solid black;
+}
+#contact_form textarea:hover{
+	border: 2px solid orange;
+}
+.item_price_tage{
+	position: relative;
+}
+.item_price_tage2{
+	position: absolute;
+	top:0%;
+	left:0px;
+	width: 100%;
+	height:100%;
+	display: none;
+	
+}
+.view2{
+     position:absolute;
+     top: 50%;
+}
+.item_price_tage2:hover .item_price_tage2{
+	display: block;
+}
+#display_category{
+	display: none;
+}
+#display_category:hover{
+	text-decoration: none;
+}
+#hide_category{
+	display: none;
+}
+#hide_category:hover{
+	text-decoration: none;
+}
+#color_size a{
+	display: block;
+	color: white;
+}
+#color_size a:hover{
+	text-decoration: none;
+}
+#size_color a{
+	display: block;
+	color: black;
+
+}
+#size_color a:hover{
+	text-decoration: none;
+}
+#home_img img{
+	border: 5px solid orange;
+}
+
+#etalage_content2{
+	display:none;
+}
+#brand_mobile_view{
+	display: none;
+}
+#ik_audio{
+	background-color: white;
+	color: white;
+	height:20px;
+}
+  #main_track_list22{
+   	display: none;
+}
+#inner_music_area{
+	position: absolute;
+	z-index:2;
+	top:10px;
+}
+#inner_place_order_area{
+	position:absolute;
+	background-color:orange;
+	width:100%;
+	height:100%;
+	top: 0px;
+	z-index:1;
+	display: none;
+	
+}
+#place_order_popup{
+	position:fixed;
+	background-color:rgba(0,0,0,0.0);
+	width:100%;
+	height:100%;
+	z-index:3;
+	display: none;
+		
+}
+#inner_place_order_popup{
+	 position:relative;
+	 top:5%;
+	 margin:auto;
+     width:50%;
+     background-color:white;
+     border-bottom: 2px solid orange;
+	 box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);	
+}
+
+#inner_place_order_popup input{
+	border-radius: 0px;
+	border:1px solid black;
+}
+#inner_place_order_popup input:hover{
+	border:1px solid orange;
+}
+
+#inner_place_order_popup textarea{
+	border-radius: 0px;
+	border:1px solid black;
+}
+#inner_place_order_popup textarea:hover{
+	border:1px solid orange;
+}
+
+#inner_place_order_popup select{
+	border-radius: 0px;
+	border:1px solid black;
+}
+#inner_place_order_popup select:hover{
+	border:1px solid orange;
+}
+@media screen and (max-width:780px){
+   .main_track_list{
+  	display: none;
+  }
+   #main_track_list22{
+  	display: block;
+  }
+  
+   #Welocome_msg{
+	padding-top:150px;
+	padding-bottom:150px;}
+
+  #header_contacts{
+  	display:none;
+  }
+  #home_img{
+  	display: none;
+  }
+  #home_slide{
+  	display: none;
+  }
+  #main_category{
+  	display: none;
+  }
+  #display_category{
+  	display: block;
+  }
+
+  #user_dashboard_menu{
+  	display: none;
+  }
+  #etalage_content{
+  	display:none;
+  }
+  #etalage_content2{
+  	display:block;
+  }
+  #brand_desktop_view{
+  	display: none;
+  }
+  #brand_mobile_view{
+  	display: block;
+
+  }
+
+  
+  
+
+}

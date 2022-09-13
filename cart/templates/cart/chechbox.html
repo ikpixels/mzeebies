@@ -1,0 +1,17 @@
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="exampleRadios" id="Stripe" value="Stripe" checked>
+  <label class="form-check-label" for="exampleRadios1">
+    Mobile
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="exampleRadios" id="Paypal" value="Paypal">
+  <label class="form-check-label" for="exampleRadios2">
+    Paypal
+  </label>
+</div>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="checkbox" id="terms" value="terms" name="terms">
+  <label class="form-check-label" for="terms">I’ve read and accept the <a style="color:orange;" href="{% url 'index:terms_conditions'%}">terms & conditions</a></label>
+</div>

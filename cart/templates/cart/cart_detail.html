@@ -1,0 +1,277 @@
+{% load static %}
+
+<div class="text-right">
+	<a href="javascript:void(0);" onclick="printPageArea()">
+		<i class="fa fa-print" aria-hidden="true"></i>
+	</a>
+
+	{% if user.is_superuser %}
+	    {% if not order.being_delivered %}
+	      <a class="mt-4 rounded" id="custom_btn" href="javascript:void(0);" onclick="delivered('{{order.id}}');">Delivered</a>
+	    {% endif %}
+	{% endif %}
+</div>
+<div class="rounded p-2" id="table" style="background-color:rgb(241,246,247)">
+	<div class="rounded">
+	<div class="my-2 p-2 rounded-top" style="background-color:#222222;">
+		<img src="{% static 'img/logo.png' %}" width="100">
+	</div>
+	<div class="rounded-bottom p-2 mb-2" style="border:1px solid black;">
+		<h1 class="p-2" style=""><i>Invoice</i></h1><hr>
+		<h4>Customer : {{order}}</h4>
+		{% if order.ref_code %}
+		   <p><strong>Ref code <span style="color:orange;">{{order.ref_code}}</span></strong></p>
+		{% else %}
+		    <p style="color:red;"><strong>Payment not yet verified</strong></p>
+		{% endif %}
+		{% if order.being_delivered %}
+		  <p>Delivered</p>
+		{% endif %}
+		<p>Order started date : <span style="color:orange;">{{order.start_date}}</span></p>
+
+		</div>
+		<div class="row">
+			 <div class="col-sm-12 col-lg-6">
+			 	 <div class="rounded p-2 mt-1" style="border:1px solid black;">
+			 	 	 <h4>Billing Address</h4><hr>
+			 	 	 <table class="table">
+			 	 	 	<tr>
+			 	 	 		<th>Full Name</th>
+			 	 	 		<td>{{billing}}</td>
+			 	 	 	</tr>
+			 	 	 	<tr>
+							<th>Country</th>
+							<td>{{billing.country}}</td>
+						</tr>
+						{% if billing.city %}
+						<tr>
+							<th>City</th>
+							<td>{{billing.city}}</td>
+						</tr>
+						{% endif %}
+						{% if billing.street_adress %}
+						<tr>
+							<th>street_adress</th>
+							<td></td>
+							<td>{{billing.street_adress}}</td>
+						</tr>
+						{% endif %}
+                        
+                        {% if billing.apartment %}
+						<tr>
+							<th>apartment</th>
+							<td>{{billing.apartment}}</td>
+						</tr>
+                        {% endif %}
+
+                        {% if billing.phone %}
+						<tr>
+							<th>Phone</th>
+							<td>{{billing.phone}}</td>
+						</tr>
+						{% endif %}
+                        
+                        {% if billing.email %}
+						<tr>
+							<th>Email</th>
+							<td>{{billing.email}}</td>
+						</tr>
+						{% endif %}
+			 	 	 </table>
+			 	 </div>
+			 </div>
+			 <div class="col-sm-12 col-lg-6">
+			 	 <div class="rounded p-2 mt-2" style="border:1px solid black;">
+			 	 	<h4>Shipping Address</h4><hr>
+			 	 	{% if shipping.first_name %}
+					<table class="table">
+						<tr>
+							<th>Full Name</th>
+							<td>{{shipping}}</td>
+						</tr>
+
+						<tr>
+							<th>Country</th>
+							<td>{{shipping.country}}</td>
+						</tr>
+                        
+                        {% if shipping.city %}
+						<tr>
+							<th>City</th>
+							<td>{{shipping.city}}</td>
+						</tr>
+						{% endif %}
+
+						{% if shipping.street_adress %}
+						<tr>
+							<th>street_adress</th>
+							<td>{{shipping.street_adress}}</td>
+						</tr>
+						{% endif %}
+                        
+                        {% if shipping.apartment %}
+						<tr>
+							<th>apartment</th>
+							<td>{{shipping.apartment}}</td>
+						</tr>
+                        {% endif %}
+
+                        
+
+                        {% if shipping.phone %}
+						<tr>
+							<th>Phone</th>
+							<td>{{shipping.phone}}</td>
+						</tr>
+						{% endif %}
+                        
+                        {% if shipping.email %}
+						<tr>
+							<th>Email</th>
+							<td>{{shipping.email}}</td>
+						</tr>
+						{% endif %}
+					</table>
+				{% else %}
+					<table class="table">
+						<tr>
+							<th>Full Name</th>
+							<td>{{billing}}</td>
+						</tr>
+
+						<tr>
+							<th>Country</th>
+							<td>{{billing.country}}</td>
+						</tr>
+                        
+                        {% if billing.city %}
+						<tr>
+							<th>City</th>
+							<td>{{billing.city}}</td>
+						</tr>
+						{% endif %}
+
+						{% if billing.street_adress %}
+						<tr>
+							<th>street_adress</th>
+							<td>{{billing.street_adress}}</td>
+						</tr>
+						{% endif %}
+                        
+                        {% if billing.apartment %}
+						<tr>
+							<th>apartment</th>
+							<td>{{billing.apartment}}</td>
+						</tr>
+                        {% endif %}
+
+                        {% if billing.phone %}
+						<tr>
+							<th>Phone</th>
+							<td>{{billing.phone}}</td>
+						</tr>
+						{% endif %}
+                        
+                        {% if billing.email %}
+						<tr>
+							<th>Email</th>
+							<td>{{billing.email}}</td>
+						</tr>
+						{% endif %}
+					</table>
+				{% endif %}
+			 	 </div>
+			 </div>
+		</div>
+	</div>
+
+	<div class="mt-2">
+		<h4>Item/s</h4><hr>
+		<div class="table-responsive" id="item_received">
+		<table class="table">
+			<thead>
+				<th colspan="2">Item</th>
+				<th>QT</th>
+				<th>Color</th>
+				<th>Size</th>
+				<th>Price</th>
+				<th>Total</th>
+				{% if request.user.is_superuser %}
+				<th>Phone</th>
+				<th>Received</th>
+				{% if user.is_superuser %}
+				<th>P</th>
+				{% endif %}
+				{% endif %}
+			</thead>
+			{% for item in order.cart.all %}
+			<tr>
+				<td>
+					{% if item.item.file %}
+                    <img src="{{item.item.file.url}}" class="mr-2" height="30">
+                    {% else %}
+                    <img src="{% static 'img/item.png' %}" class="mr-2" height="30">
+                    {% endif %}
+				</td>
+				<td>{{item}}</td>
+				<td>{{item.quantity}}</td>
+				<td id="color_size">
+					{% for color in item.item_adds.all %}
+					<a class="p-2" style="background-color:{{color.color}};" href="javascript:void(0);">{{color.color}}</a>
+					{% endfor %}
+				</td>
+				<td id="size_color">
+					{% for color in item.item_adds.all %}
+					<a class="p-2" href="javascript:void(0);">{{color.size}}</a>
+					{% endfor %}
+				</td>
+				<td>{{item.get_item_price}}</td>
+				<td>{{item.get_final_price}}</td>
+				{% if request.user.is_superuser %}
+				<td>{{item.vendor_number}}</td>
+				<td>
+					{% if item.received_from_vendor == False %}
+					<a onclick="received_from_vendor('{{item.id}}');" href="javascript:void(0);">
+					   <img src="{% static 'img/R_btn.png'%}" height="30">
+					</a>
+					{% else %}
+					  <img src="{% static 'img/R.png'%}" height="30">
+					{% endif %}
+				</td>
+				{% endif %}
+
+				{% if user.is_superuser %}
+				<td><a style="font-weight:bold;color:green;" onclick="display_payment_info('{{item.id}}');" href="javascript:void(0);">::</a></td>
+				<tr class="p-2 rounded" id="pyt_{{item.id}}" style="display:none;position:absolute;z-index:1;left:0px;background-color:white;box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);">
+
+					<td style="color:orange;"  colspan="10">
+						<a style="color:red;" onclick="display_payment_info('{{item.id}}');"  class="close" href="javascript:void(0);">x</a>
+					{{item.vendor_payment_contacts}}</td>
+				</tr>
+				{% endif %}
+			</tr>
+			{% endfor %}
+		</table>
+	    </div>
+		<div class="text-right">
+			<h1>
+			  <strong style="color:orange;">MKW {{order.get_total}}</strong>
+			</h1>
+		</div>
+	</div>
+
+</div>
+
+
+<script type="text/javascript">
+    function printPageArea(){
+    var printContent = document.getElementById('table');
+    var WinPrint = window.open('', '', 'width=900,height=650');
+    WinPrint.document.write(printContent.innerHTML);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+}
+
+</script>

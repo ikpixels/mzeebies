@@ -1,0 +1,62 @@
+
+    
+                   {% for item in items  %}
+                <div class="col-sm-12 col-lg-3" onmouseout="Quick_btn2('{{item.slug}}');" 
+                     onmouseover="Quick_btn('{{item.slug}}');">
+                    <div class=" mx-2 item_price_tage my-2 rounded" id="main_item3">
+                    
+                        {% if item.file %}
+                        <img src="{{item.file.url}}" class="d-block w-100 rounded-top">
+                        {% else %}
+                        <img src="{% static 'img/item.png '%}" class="d-block w-100 rounded-top">
+                        {% endif %}
+                        <div class="px-1" class="">
+                            <p>{{item}}</p>
+                             
+                             
+                             {% if item.new_price %}
+                             
+                             <p><span style="color:red;"><strong>
+                             {{item.category.currency}} </strong></span>{{item.new_price}}</p>
+                             {% else %}
+                             <p><span style="color:red;"><strong>
+                             {{item.category.currency}} </strong></span>{{item.price}}</p>
+                             {% endif %}
+
+                        </div>
+                        
+                        {% if item.new_price is not none %}
+                        <div  style="position:absolute;top:2px; left:2px"> 
+                           <small class="p-1" style="background:red;color:white;" class="round-circle;">{{item.discount}}% off</small>
+                        </div>
+                        {% endif %}
+
+                        <div class="item_price_tage2" id="{{item.slug}}">
+                           
+                            <a style="width:100%;" 
+                               class="text-center view2" id="custom_btn" href="{% url 'products:detail' item.slug %}">
+                               <i class="fa fa-eye" aria-hidden="true"></i>
+                               Quick view
+                             </a>
+
+                               {% if user.is_superuser %} 
+                               <div id="edit_delete" class="p-2">
+                                  <a class="close"  onclick="delete_shop_item('{% url 'products:delete_item' item.slug %}');" href="javascript:void(0);">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </a>
+                                
+                                  <a class="close" onclick="edit_main_shop_item('{% url 'products:edit' item.slug %}');" href="javascript:void(0);">
+                                    <i class="fas fa-edit"></i>
+                                  </a>
+                                  <a style="background:white;" class="p-1 rounded" href="{% url 'products:deal_payment_form' item.slug %}">Make deal</a>
+                               </div>
+                               {% endif %}
+                        </div>
+                    </div>
+                </div>
+               {% empty %}
+                   <div class="col-sm-12">
+                      {% include 'index/error.html' %}
+                   </div>
+               {% endfor %}
+               

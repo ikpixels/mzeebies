@@ -1,0 +1,75 @@
+<div class="col-sm-12 col-lg-12">
+    <hr>
+    {% if item.timer and item.stock is not 0 %}
+      <div class="text-center" id="shop_item_deals">
+        <div class="my-4" id="timer_{{item.id}}" accesskey='{{item.timer|date:"U"}}'>
+           <div>
+              <a style="border:none;font-weight:bold;" class="mr-2 p-2 rounded"><span id="days_{{item.id}}"></span> Days</a>
+              
+           </div>
+           <div class="mt-2">
+              <a class="mr-2 p-2 rounded"><span id="hours_{{item.id}}"></span> H</a>
+              <a class="mr-2 p-2 rounded"><span id="minutes_{{item.id}}"></span> M</a>
+          <a class="p-2 rounded"><span id="seconds_{{item.id}}"></span> S</a>
+           </div>
+        </div>
+      </div>
+    {% endif %}
+</div>
+
+
+<script>
+function countdown_timer(id) {
+   var item_id = "#timer_" + id;
+   var dj_time = $(item_id).attr('accesskey');
+   var endTime=new Date( dj_time * 1000);
+    endTime = (Date.parse(endTime) / 1000);
+
+        var now = new Date();
+        now = (Date.parse(now) / 1000);
+
+        var timeLeft = endTime - now;
+
+        var days = Math.floor(timeLeft / 86400);
+        var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+        var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+        var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+
+        if (hours < "10") { hours = "0" + hours; }
+        if (minutes < "10") { minutes = "0" + minutes; }
+        if (seconds < "10") { seconds = "0" + seconds; }
+
+        if (days == 0 && hours == 0 && seconds == 0 || days < 0){
+            $.ajax({
+                type  : "GET",
+                url   : '/products/timer/',
+                data  : {'data':item_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        
+
+                 success : function(response){
+                    $('.text-center').css('display','none');
+                },
+                error :function(error){
+                    $('#main_alert').css('display','block');
+                    $('#inner_main_alert_hd').html("Error");
+                    $('#inner_main_alert_text').html("Something is wrong");
+                }
+            })
+        }
+
+        var Days = "#days_" + id; 
+        var Hours = "#hours_" + id;
+        var Minutes = "#minutes_" + id; 
+        var Seconds = "#seconds_" + id;
+
+        $(Days).html(days);
+        $(Hours).html(hours);
+        $(Minutes).html(minutes);
+        $(Seconds).html(seconds);
+
+}
+
+setInterval(function() { countdown_timer('{{item.id}}'); }, 1000);
+
+
+</script>

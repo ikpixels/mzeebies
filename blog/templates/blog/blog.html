@@ -1,0 +1,102 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Blog</a>
+
+
+      <div style="float:right;">
+         <a id="display_category" 
+            onclick="display_category();" 
+            href="javascript:void(0);">
+              <img src="{% static 'img/cat.png' %}" height="20">
+          </a>
+          <a id="hide_category" 
+             href="javascript:void(0);" 
+             onclick="hide_category();">
+              <img src="{% static 'img/cat2.png' %}" height="20">
+           </a>
+      </div>
+    
+   </div><hr>
+</section>
+
+
+<section class="my-2" style="background-repeat:no-repeat;background-position: center center;background-size: cover;background:url({% static 'img/mainbg.png'%});">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-2" id="main_category">
+				{% include 'blog/category.html' %}
+			</div>
+			<div class="col-sm-12 col-lg-10">
+				{% for blog in blog %}
+				   <div class="row">
+				   	   <div class="col-sm-12 col-lg-8">
+				   	   	  <div style="position:relative;">
+				   	   	  	 <img src="{{blog.image.url}}" class="d-block w-100  text-center rounded">
+				   	   	  	 <div class="blog_content2  rounded">
+				   	   	  	 	<div class="p-4">
+				   	   	  	 		<h4 class="mb-2" style="color:white;white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">{{blog}}</h4>
+				   	   	  	 		<a class="p-2 mt-2" id="custom_btn7" href="{% url 'blog:blog_detail' blog.slug %}" style="color:white;">Learn more</a>
+				   	   	  	 	</div>
+				   	   	  	 </div>
+				   	   	  	 
+				   	   	  </div>
+				   	   </div>
+				   	   <div class="col-sm-12 col-lg-4">
+				   	   	   <p style="color:orange;"><strong>By {{blog.vendor}}</strong></p>
+				   	   	   <p>Category : {{blog.categorys}}</p>
+				   	   	   <p>Comment/s :{{blog.comment_num}}</p>
+				   	   	   <p>Posted {{blog.whenpublished}}</p>
+				   	   </div>
+				   	
+				   </div><hr>
+				{% empty %}
+				   <div class="col-sm-12">
+                      {% include 'index/error.html' %}
+                   </div>
+				{% endfor %}
+
+			<!--______________________________pagination_______________________________-->
+                            <div class="my-4">
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if blog.has_previous %}
+                                        <a href="?page=1">&laquo;</a>
+                                        <a href="?page={{ blog.previous_page_number }}">
+                                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                         </a>
+
+                                        {% endif %}
+
+                                        <span class="current">
+                                        Page {{ blog.number }} of {{blog.paginator.num_pages }}.
+                                        </span>
+
+                                        {% if blog.has_next %}
+                                        <a href="?page={{blog.next_page_number }}">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="?page={{blog.paginator.num_pages }}">&raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+<!--___________________________________________________________________-->
+			</div>
+		</div>
+	</div>
+</section>
+
+
+{% endblock %}

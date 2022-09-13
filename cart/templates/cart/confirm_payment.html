@@ -1,0 +1,64 @@
+{% extends "index/base.html"%}
+{% load static %}
+
+{% block body %}
+{% include 'index/header.html '%}
+
+<section class="my-1">
+	 <div class="container" id="inner_nav">
+	 	  <a href="{% url 'index:index' %}">Home</a>
+	 	  <a href="javascript:void(0);">/</a>
+	 	  <a href="{% url 'account:dashboard' %}">Myaccount</a>
+	 	  <a href="javascript:void(0);">/</a>
+	 	  <a href="#">Mobile payment</a>
+	 </div><hr>
+</section>
+
+<section class="my-2">
+	<div class="container">
+		<div class="row">
+			 <div class="col-sm-12 col-lg-2" id="dashboard_menu">
+			 	<div class="p-2">
+			 		<h4>Payment method</h4><hr>
+			 		<a href="{% url 'cart:verify_p'%}">All Payments</a><hr>
+			 		<a href="{% url 'cart:verify_p2' 'airtel'%}"> <img src="{% static 'img/airtel.jpg' %}" class="rounded" width="20">Airtel money</a><hr>
+			 		<a href="{% url 'cart:verify_p2' 'TNM'%}"><img src="{% static 'img/tnm.jpg' %}" class="rounded" width="20">Mpamba</a>
+			 	</div>
+			 </div>
+			 <div class="col-sm-12 col-lg-10">
+			 	 <div>
+			 	 	<div class="table-responsive" id="verification_table">
+			 	 		<table class="table">
+			 	 			<thead style="background-color:orange;color:white;">
+			 	 				<th>Name</th>
+			 	 				<th>Ref number</th>
+			 	 				<th>Required</th>
+			 	 				<th>Amount</th>
+			 	 				<th>Date</th>
+			 	 				<th>Verify</th>
+			 	 			</thead>
+			 	 			{% for payment in payment %}
+			 	 			<tr>
+			 	 				<td>{{payment.name}}</td>
+			 	 				<td>{{payment.rep_no}}</td>
+			 	 				<td>{{payment.required}}</td>
+			 	 				<td>{{payment.amount}}</td>
+			 	 				<td>{{payment.created_at}}</td>
+			 	 				<td>
+			 	 					<a onclick="verify('{{payment.id}}');" href="javascript:void(0);">V</a>
+			 	 				</td>
+			 	 			</tr>
+			 	 			{% empty%}
+			 	 			 <tr >
+			 	 			 	<td colspan="5" style="color:red;font-size:30px;">No any payments</td>
+			 	 			 </tr>
+			 	 			{% endfor %}
+			 	 		</table>
+			 	 	</div>
+			 	 </div>
+			 </div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

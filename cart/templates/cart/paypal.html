@@ -1,0 +1,91 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'products:mainshop' %}">Products</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'cart:cart_view' %}">cart</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Paypal</a>
+   </div><hr>
+</section>
+
+{% if finish_payment %}<!--error msg-->
+<div id="terms_error" class="text-center p-2 mb-4 alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+     </button>
+	<p style="color:red;">{{finish_payment}} {{request.user}}</p>
+</div>
+{% endif %}
+
+<section class="my-2">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-sm-12 col-lg-6">
+				<div class="rounded p-2" style="background-color:rgb(241,246,247);">
+					<div class="row">
+						<div class="col">
+							<p style="color:orange;"><strong>Item</strong></p>
+						</div>
+						<div class="col">
+							<p style="color:orange;"><strong>Price</strong></p>
+						</div>
+					</div>
+					{% for cart in cart.cart.all %}
+					<div class="row">
+						<div class="col">
+							<p>{{cart}}</p>
+						</div>
+						<div class="col">
+							<p>{{cart.get_final_price}}</p>
+						</div>
+					</div>
+					{% endfor %}<hr>
+					<div class="row">
+						<div class="col">
+							<h4 style="color:orange;"><strong>Total(MWK)</strong></h4>
+						</div>
+						<div class="col">
+							<h4 style="color:orange;"><strong>{{cart.get_total}}</strong></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<h4><strong>Total(USD)</strong></h4>
+						</div>
+						<div class="col">
+							<h4><strong>{{USD}}</strong></h4>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-lg-6">
+				<div>
+				 <h4 style="color:orange;"><strong>NOTE:</strong></h4>
+				 <P style="color:red;" >Please remember to click return to <span style="color:green;">Merchant button</span> after completing your payment with paypal</P>
+				</div><hr>
+				<div class="text-center">
+					{{paypal_form.render}}<hr>
+					<p><strong>USD {{USD}}</strong></p>
+				</div>
+				<!--<a href="{% url 'cart:paypal_thax'%}">Click</a>-->
+			</div>
+
+		</div>
+	</div>
+</section>
+
+{% endblock %}

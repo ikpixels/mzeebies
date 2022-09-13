@@ -1,0 +1,87 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'account:dashboard'%}">Dashboard</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'products:mainshop'%}">Needed items</a>
+   </div><hr>
+</section>
+
+
+<section>
+	 <div class="container">
+	 	  <div class="table-responsive">
+	 	  	 <table class="table">
+	 	  	 	 <thead class="rounded-top" style="background-color:orange">
+	 	  	 	 	 <th>Name</th>
+	 	  	 	 	 <th>Budget(MK)</th>
+	 	  	 	 	 <th>Location</th>
+	 	  	 	 	 <th>Phone</th>
+	 	  	 	 	 <th>Item</th>
+	 	  	 	 	 <th>Order code</th>
+	 	  	 	 	 <th>Edit</th>
+	 	  	 	 </thead>
+
+	 	  	 	 {% for order in order %}
+	 	  	 	     <tr>
+	 	  	 	     	<td>{{order}}</td>
+	 	  	 	     	<td>{{order.budget}}</td>
+	 	  	 	     	<td>{{order.location}}</td>
+	 	  	 	     	<td>{{order.phone}}</td>
+	 	  	 	     	<td>{{order.item2}}</td>
+	 	  	 	     	<td>{{order.orderNo}}</td>
+	 	  	 	     	<td>
+	 	  	 	     		<a href="{% url 'index:edit_needed_item_form' order.id %}">Edit</a>
+	 	  	 	     	</td>
+	 	  	 	     </tr>
+	 	  	 	 {% empty %}
+	 	  	 	    <tr>
+	 	  	 	    	<td colspan="6">Empty..</td>
+	 	  	 	    </tr>
+	 	  	 	 {% endfor %}
+	 	  	 </table>
+	 	  </div>
+
+	 	               <!--________________pagination_______________________________-->
+           <div class="col-sm-12 my-4">
+               <div class="pagination">
+                <span class="step-links">
+                    {% if order.has_previous %}
+                        <a href="?page=1">&laquo;</a>
+                        <a href="?page={{ order.previous_page_number }}">
+                          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ order.number }} of {{order.paginator.num_pages }}.
+                    </span>
+
+                    {% if order.has_next %}
+                        <a href="?page={{order.next_page_number }}">
+                          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <a href="?page={{order.paginator.num_pages }}">&raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+           </div>
+<!--__________________________________________________________-->
+	 </div>
+</section>
+
+
+{% endblock %}

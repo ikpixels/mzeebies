@@ -1,0 +1,35 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'products:mainshop' %}">Products</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'cart:cart_view' %}">cart</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Paypal</a>
+   </div><hr>
+</section>
+
+
+
+<section>
+  
+   <div class="container p-2 text-center">
+      <div class="dashboard_detail_area">
+        <h1>Thank you!!!</h1>
+        <a class="mt-2 p-2" id="custom_btn" href="javascript:void(0);" onclick="ivoice();">view invoice</a>
+      </div>
+   </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "index/base.html"%}
+{% load static %}
+
+{% block body %}
+{% include 'index/header.html '%}
+
+<section class="my-1">
+	 <div class="container" id="inner_nav">
+	 	  <a href="{% url 'index:index' %}">Home</a>
+	 	  <a href="javascript:void(0);">/</a>
+	 	  <a href="#">Myaccount</a>
+	 </div><hr>
+</section>
+
+
+<section class="my-4">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-2" id="dashboard_menu">
+
+				{% if user.is_superuser %}
+				<div id="user_dashboard_menu">
+					<h4 class="my-2"><strong>{{request.user}}</strong></h4><hr>
+					<a href="{% url 'account:dashboard'%}">Orders</a>
+					<hr>
+					<a href="{% url 'account:Dashboard2' 'delivered'%}">
+					Derevered orders</a>
+					<hr>
+					<a href="{% url 'cart:verify_p'%}">Mobile payments</a>
+					<hr>
+					<a href="{% url 'music:main_music'%}">Main music</a><hr>
+					<a href="{% url 'vendor:bill_verification'%}">Vendor bills</a><hr>
+					<a href="{% url 'vendor:deal_payment_verification'%}">Deal payment</a>
+					<hr>
+					{% if vendor_account %}
+		 	 	        <a href="{% url 'vendor:vendor_account'%}">Vendor account</a>
+		 	 	   {% else %}
+		 	 	        <a href="{% url 'vendor:vendor'%}">Become our Vendor</a>
+		 	 	   {% endif %}
+		 	 	   <hr>
+					<a href="{% url 'products:category_v' %}">Add Categories</a><hr>
+					<a href="{% url 'music:add_youtube_feed'%}">Add youtube video</a><hr>
+					<a href="{% url 'products:upload_brand' %}">Add products brand</a><hr>
+					<a href="{% url 'vendor:agent' %}">Add agent</a><hr>
+					<a href="{% url 'vendor:vendor_db' %}">Vendor db</a><hr>
+					<a href="{% url 'index:main_needed_item_view'%}">Needed items</a><hr>
+					<a href="/admin/">Admin</a><hr>
+				</div>
+				{% endif %}
+			</div>
+
+			<div class="col-sm-12 col-lg-10" id="dashboard_content">
+				<div class="table-responsive dashboard_detail_area">
+					<table class="table table-striped">
+						<thead style="background-color:orange;">
+							<th>Name</th>
+			                <th>sticker num</th>
+			                <th>Date</th>
+							<th>detail</th>
+						</thead>
+						{% for order in orders %}
+						 <tr>
+						 	<td>{{order}}</td>
+						 	<td>{{order.ref_code}}</td>
+						 	<td>{{order.start_date}}</td>
+						 	<td>
+						 		<a href="javascript:void(0);" onclick="cart_detail('{{order.id}}');">
+						 			<img src="{% static 'img/plus.png' %}" height="20">
+						 		</a>
+						 	</td>
+						 </tr>
+						{% empty %}
+						  <tr>
+						  	 <td colspan="4" style="color:red;font-size:30px;">You don't have complete orders!!!</td>
+						  </tr>
+						{% endfor %}
+					</table>
+
+<!--________________pagination_______________________________-->
+           <div class="col-sm-12 my-4">
+               <div class="pagination">
+                <span class="step-links">
+                    {% if orders.has_previous %}
+                        <a href="?page=1">&laquo;</a>
+                        <a href="?page={{ orders.previous_page_number }}">
+                          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ orders.number }} of {{orders.paginator.num_pages }}.
+                    </span>
+
+                    {% if orders.has_next %}
+                        <a href="?page={{orders.next_page_number }}">
+                          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <a href="?page={{orders.paginator.num_pages }}">&raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+           </div>
+<!--__________________________________________________________-->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

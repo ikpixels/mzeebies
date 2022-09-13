@@ -1,0 +1,119 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'account:dashboard' %}">Dashboard</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Music</a>
+
+
+      <div style="float:right;">
+         <a id="display_category" 
+            onclick="display_category();" 
+            href="javascript:void(0);">
+              <img src="{% static 'img/cat.png' %}" height="20">
+          </a>
+          <a id="hide_category" 
+             href="javascript:void(0);" 
+             onclick="hide_category();">
+              <img src="{% static 'img/cat2.png' %}" height="20">
+           </a>
+      </div>
+    
+   </div><hr>
+</section>
+
+
+<!--<section class="my-2" id="brand_desktop_view">
+    {% include 'music/album.html'%}
+</section>-->
+
+<section class="my-2">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-2" id="main_category">
+				<div class="p-2 rounded" id="music_category" style="background-color:rgb(241,246,247);">
+            <h4><strong>Music manager</strong></h4><hr>
+					  <a href="{% url 'music:main_music' %}">Approved track/s</a><hr>
+            <a href="{% url 'music:main_music_2' 'Non approved track' %}">Non approved track/s</a><hr>
+            <a href="{% url 'music:main_music_2' 'Rejected track' %}">Rejected track/s</a><hr>
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-lg-10">
+				<section id="ik_music_manager_area">
+				    <div class="row">
+				    	 {% for track in tracks %}
+				    	    <div class="col-sm-12 col-lg-3">
+				    	    	<div class="my-2 main_music_outer" onmouseover="music_manager('{{track.slug}}');" onmouseout="music_manager2('{{track.slug}}');">
+                      <p style="color:orange;"><strong>{{track}}</strong></p>
+				    	    		<a href="{% url 'music:music_detail' track.slug %}">
+                          <img src="{{track.file.url}}" class="d-block w-100 rounded">       
+                      </a>
+				    	    
+
+                      <div class="main_music_inner rounded p-2" id="ikmusic_{{track.slug}}">
+                          <audio class="d-block w-100 rounded mb-4" id="ik_audio" controls="controls">
+                             <source src="{{track.mp3.url}}" type="audio/mpeg">
+                          </audio><hr>
+
+                          {% if track.allowed == False %}
+                          <a onclick="Aprove_music('{{track.id}}');" id="custom_btn" href="javascript:void(0);">Approve</a><hr>
+                          {% endif %}
+
+                          <a onclick="disapprove_music('{{track.id}}');" id="custom_btn2" href="javascript:void(0);">Disapprove</a><hr>
+                          <a onclick="delete_music('{{track.id}}');" href="javascript:void(0);">Delete</a>
+                      </div>
+                      
+				    	    	</div>
+                  
+				    	    </div>
+				    	 {% empty %}
+				    	     <div class="col-sm-12">
+                      {% include 'index/error.html' %}
+                    </div>
+				    	 {% endfor %}
+				    </div>
+<!--______________________________pagination_______________________________-->
+                            <div class="my-4">
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if tracks.has_previous %}
+                                        <a href="?page=1">&laquo;</a>
+                                        <a href="?page={{ tracks.previous_page_number }}">
+                                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                         </a>
+
+                                        {% endif %}
+
+                                        <span class="current">
+                                        Page {{tracks.number }} of {{tracks.paginator.num_pages }}.
+                                        </span>
+
+                                        {% if tracks.has_next %}
+                                        <a href="?page={{tracks.next_page_number }}">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="?page={{tracks.paginator.num_pages }}">&raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+<!--___________________________________________________________________-->
+				</section>
+		   </div>
+	</div>
+</section>
+
+
+{% endblock %}

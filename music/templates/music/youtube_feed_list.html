@@ -1,0 +1,104 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Videos</a>
+
+
+      <div style="float:right;">
+         <a id="display_category" 
+            onclick="display_category();" 
+            href="javascript:void(0);">
+              <img src="{% static 'img/cat.png' %}" height="20">
+          </a>
+          <a id="hide_category" 
+             href="javascript:void(0);" 
+             onclick="hide_category();">
+              <img src="{% static 'img/cat2.png' %}" height="20">
+           </a>
+      </div>
+    
+   </div><hr>
+</section>
+
+
+<section class="my-2" style="background-repeat:no-repeat;background-position: center center;background-size: cover;background:url({% static 'img/mainbg.png'%});">
+	<div class="container">
+		<div class="row">
+
+			<div class="col-sm-12 col-lg-2" id="main_category">
+				  <div id="blog_category">
+            <h4 style="color:orange;"><strong>Categories</strong></h4><hr>
+            <a href="{% url 'music:youtube_feed_CATE' 'Agriculture'%}">Agriculture</a><hr>
+            <a href="{% url 'music:youtube_feed_CATE' 'Intertainment'%}">Intertainment</a><hr>
+            <a href="{% url 'music:youtube_feed_CATE' 'Food and Nutritions'%}">Food and Nutritions</a><hr>
+            <a href="{% url 'music:youtube_feed_CATE' 'Business'%}">Business</a><hr>
+            <a href="{% url 'music:youtube_feed_CATE' 'Others'%}">Others</a><hr>
+          </div>
+			</div>
+
+			<div class="col-sm-12 col-lg-10">
+          <div class="row">
+              {% for video in youtubefeed %}
+                 <div class="col-sm-12 col-lg-4">
+                    <div class="video-responsive my-2 rounded" style="box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)">
+                         <div class="rounded-top p-1" style="background-color:orange">
+                            <p style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:black;" >{{video}}</p>
+                         </div>
+                         <div>
+                            <iframe class="rounded" width="100%" height="100%" src="{{video.split_link}}" frameborder="0" allowfullscreen></iframe>
+                         </div>
+                   </div>
+                 </div>
+              {% empty %}
+                  <div class="col-sm-12">
+                      {% include 'index/error.html' %}
+                  </div>
+              {% endfor %}
+          </div>
+
+
+<!--______________________________pagination_______________________________-->
+                            <div class="my-4">
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if youtubefeed.has_previous %}
+                                        <a href="?page=1">&laquo;</a>
+                                        <a href="?page={{ youtubefeed.previous_page_number }}">
+                                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                         </a>
+
+                                        {% endif %}
+
+                                        <span class="current">
+                                        Page {{ youtubefeed.number }} of {{youtubefeed.paginator.num_pages }}.
+                                        </span>
+
+                                        {% if youtubefeed.has_next %}
+                                        <a href="?page={{youtubefeed.next_page_number }}">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="?page={{youtubefeed.paginator.num_pages }}">&raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+<!--___________________________________________________________________-->
+			</div>
+		</div>
+   
+	</div>
+</section>
+
+ {% include 'music/products.html' %}
+{% endblock %}

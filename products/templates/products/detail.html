@@ -1,0 +1,347 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load ratings %}
+
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'products:mainshop'%}">Shop</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">{{title}}</a>
+
+      <div style="float:right;">
+         <a id="display_category" 
+            onclick="display_category();" 
+            href="javascript:void(0);">
+              <img src="{% static 'img/cat.png' %}" height="20">
+          </a>
+          <a id="hide_category" 
+             href="javascript:void(0);" 
+             onclick="hide_category();">
+              <img src="{% static 'img/cat2.png' %}" height="20">
+           </a>
+      </div>
+   </div><hr>
+</section>
+
+<section style="background-repeat:no-repeat;background-position: center center;background-size: cover;background:url({% static 'img/mainbg.png'%});">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-2" id="main_category">
+               <div id="sidebar_category" class="p-2 rounded mb-2">
+                   <h4 style="color:orange;"><strong>Categories</strong></h4><hr>
+                      <a  href="{% url 'products:mainshop'%}">All</a>
+                   {% for category in categories  %}
+                      <a id="{{category.category}}" onclick="backgroundcolor('{{title}}');" href="{% url 'products:mainshop2' category %}">{{category}}</a>
+                   {% endfor %}
+                </div>
+
+                <div id="sidebar_category" class="p-2 rounded my-1">
+                    <a  href="{% url 'products:type' 'Popular'%}">Popular</a>
+                    <a  href="{% url 'products:type' 'Top_Seller'%}">Top Seller</a>
+                    <a  href="{% url 'products:type' 'Top_rated'%}">Top rated</a>
+                    <a  href="{% url 'products:type' 'Item_Deals'%}">Deals</a>
+                </div>
+
+                <div id="sidebar_category" class="p-2 rounded my-1">
+                   <h4 style="color:orange;"><strong>Brand</strong></h4><hr>
+                   {% for brand in brand  %}
+                      <a href="{% url 'products:mainshop2' brand %}">{{brand}}</a>
+                   {% endfor %}
+                </div>
+
+                {% if area %}
+              <div id="sidebar_category" class="p-2 rounded my-1">
+                   <h4 style="color:orange;"><strong>Your location</strong></h4><hr>
+                   <a href="{% url 'products:mainshop2' district %}">{{district}}</a>
+                   <a href="{% url 'products:mainshop2' area %}">{{area}}</a>
+                </div>
+              {% endif %}
+            </div>
+            <div class="col-sm-12 col-lg-10">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                       <div class="row">
+                           <div class="col-sm-12 col-lg-12">
+                              <div id="etalage_content2">
+                                 {% if item.file %}
+                                    <img src="{{item.file.url}}" class="d-block w-100 rounded-top">
+                                  {% else %}
+                                    <img src="{% static 'img/item.png '%}" class="d-block w-100 rounded-top">
+                                  {% endif %}
+                              </div>
+                              <div id="etalage_content">
+                                {% if item.file %}
+                                <ul id="etalage">
+                                  <li>
+                                    <img class="etalage_thumb_image " src="{{item.file.url}}"alt="trtr" >
+                                    <img class="etalage_source_image" src="{{item.file.url}}" alt="rrryt" >
+                                  </li>
+
+                                  {% for item in item.image.all %}
+                                  <li>
+                                     <img class="etalage_thumb_image img-responsive" src="{{item.file.url}}" alt="" >
+                                     <img class="etalage_source_image img-responsive" src="{{item.file.url}}" alt="" >
+       
+                                  </li>
+                                  {% endfor %}
+                                </ul>
+                                {% else %}
+                                <img src="{% static 'img/item.png '%}" class="d-block w-100 rounded-top">
+                                  {% endif %}
+                              </div>
+                           </div>
+
+                           <div id="get_timer_id" class="col-sm-12 col-lg-12" accesskey="{{item.id}}">
+                              {% if item.timer and item.stock is not 0 %}
+                              <div class="text-center">
+                                 <div class="my-4" id="timer" accesskey='{{item.timer|date:"U"}}'>
+                                    <a class="mr-2 p-2 rounded"><span id="days"></span> Days</a>
+                                    <a class="mr-2 p-2 rounded"><span id="hours"></span> H</a>
+                                    <a class="mr-2 p-2 rounded"><span id="minutes"></span> M</a>
+                                    <a class="p-2 rounded"><span id="seconds"></span> S</a>
+                                  </div>
+                                </div>
+                              {% endif %}
+                           </div>
+
+                       </div>
+                    </div>
+
+          <div class="col-sm-12 col-lg-4 option_cart_form3">
+              <div >
+                  <h1>{{item}}</h1>
+
+                  {% if item.new_price %}
+                  <s style="color:red;">{{item.category.currency}} {{item.price}}</s>
+                  <h4 style="color:green;">{{item.category.currency}} {{item.new_price}}</h4>
+                  {% else %}
+                  <h4>{{item.category.currency}} {{item.price}}</h4>
+                  {% endif %}
+
+                  <p>Category : {{item.category}}</p>
+
+                  {% if item.stock %}
+                    <p>Availibility : in Stock</p>
+                  {% endif %}
+
+                  {% if item.area %}
+                    <p>Location :{{item.district}} / {{item.area}} </p>
+                  {% endif %}
+
+                  {% if item.brand %}
+                     <p>Brand : {{item.brand}}</p>
+                  {% endif %}
+                  {% if item.allow_customer_buy_online == True %}
+                  <form><!--pass---></form>
+                  <form class="mb-4" id="option_cart_form" action="{% url 'cart:add_to_cart' item.slug %}">
+
+                        {% csrf_token %}
+
+                
+                      {% if item.colors %}
+                      <label><strong>Select color</strong></label>
+                      <select class="my-1" name="color">
+                           {% for color in item.colors %}
+                              <option>{{color}}</option>
+                           {% endfor %}
+                      </select>
+                      {% endif %}
+
+                      {% if item.item_sizes %}
+                      <label><strong>Select Size</strong></label>
+                      <select class="my-1" name="size">
+                           {% for size in item.item_sizes %}
+                              <option>{{size}}</option>
+                           {% endfor %}
+                      </select>
+                      {% endif %}
+                     
+                      
+
+                      {% if request.user.is_authenticated %}
+
+                          {% if item.stock == 0 %}
+                          <p style="background-color:red;color:white;" class="p-2"><strong>Taken</strong></p>
+                          {% else %}
+                           <button class="mt-4" style="width:100%;" id="cart_btn">
+                              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                              Add to cart
+                           </button>
+                          {% endif%}
+
+                      {% else %}
+                        <div class="mt-4 text-center" id="cart_btn" style="width:100%;"  >
+                           <a id="cart_btn" href="{% url 'account:google_login' %}" >
+                              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                              Add to cart
+                           </a>
+                        </div>
+                      {% endif %}
+                      
+
+                  </form>
+                  {% else %}
+                  <hr>
+                   <p style="color:orange;">{{item.vendor_phone_number}}</p><hr>
+                  {% endif %}
+                  {% ratings item %}
+                 
+              </div>
+          </div>
+
+          <div class="col-sm-12 col-lg-2 p-2">
+              <div class="rounded p-2 alert" style="background-color:rgb(241,246,247);">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                   <span aria-hidden="true">×</span>
+                  </button>
+                 <a id="view_item_msg" href="{% url 'products:mainshop2' vendor.fullName %}">Hey view all our products</a><hr>
+                 <p>Lets chat on whatsapp for more information</p>
+                 <img src="{{vendor.file.url}}" class="rounded-circle" height="45">
+                 <div id="mywap" accesskey="{{vendor.phoneWapNum}}"></div>
+                 <form>
+                   
+                 </form>
+              </div>
+          </div>
+
+          <div class="col-sm-12 col-lg-12 my-2">
+              <div class="container">
+                <div id="detail_btn">
+                  {% if r_count > 1 %}
+                  <a id="Related_btn" href="javascript:void(0);" class="mr-2">Related item</a>
+                  {% endif %}
+
+                  {% if item.Dicription %}
+                  <a id="Dicription_btn" href="javascript:void(0);" class="mr-2">Discription</a>
+                  {% endif %}
+                  <!--<a id="Review_btn" href="javascript:void(0);">Review</a>-->
+                </div>
+              </div>
+
+
+
+<div id="Dicription" style="background-color:rgb(241,246,247);">
+
+      <div class="my-2">
+         <h1 class="text-center">Discription</h1><hr>
+      </div>
+      <div class="p-2 text-center">
+         <p>{{item.Dicription|safe}}</p>
+      </div>
+</div>
+
+{% if r_count > 1 %}
+<div class="p-2" id="Related" style="background-color:rgb(241,246,247);">
+       <div class="my-2">
+          <h1 class="text-center">Related products</h1><hr>
+       </div>
+       <div  class="Related">
+            
+            {% for item2 in related  %}
+                {% if item2.id is not item.id  %}
+                <div class="mx-2">
+                    <div class="mx-2">
+                        <a href="{% url 'products:detail' item2.slug %}">
+                           {% if item2.file %}
+                              <img src="{{item2.file.url}}" class="d-block w-100 rounded-top">
+                            {% else %}
+                                <img src="{% static 'img/item.png '%}" class="d-block w-100 rounded-top">
+                            {% endif %}
+                        </a>
+                        <div class="text-center">
+                          {% if item.new_price %}
+                             
+                             <p><span style="color:red;"><strong>
+                             {{item.category.currency}} </strong></span><span style="color:orange;">{{item.new_price}}</span></p>
+                             {% else %}
+                             <p><span style="color:red;"><strong>
+                             {{item.category.currency}} </strong></span><span style="color:orange;">{{item.price}}</span></p>
+                             {% endif %}
+                        </div>  
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+</div>
+{% endif %}
+
+
+
+          </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if brand %}
+{% include 'products/brand.html'%}
+{% endif %}
+
+
+
+<script>
+function countdown_timer(args) {
+   var dj_time = $("#timer").attr('accesskey');
+   var item_id = $("#get_timer_id").attr('accesskey');
+   var endTime=new Date( dj_time * 1000);
+      
+        endTime = (Date.parse(endTime) / 1000);
+
+        var now = new Date();
+        now = (Date.parse(now) / 1000);
+
+        var timeLeft = endTime - now;
+
+        var days = Math.floor(timeLeft / 86400);
+        var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+        var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+        var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+
+        if (hours < "10") { hours = "0" + hours; }
+        if (minutes < "10") { minutes = "0" + minutes; }
+        if (seconds < "10") { seconds = "0" + seconds; }
+
+        if (days == 0 && hours == 0 && seconds == 0 || days < 0){
+            $.ajax({
+                type  : "GET",
+                url   : '/products/timer/',
+                data  : {'data':item_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        
+
+                 success : function(response){
+                    $('.text-center').css('display','none');
+                },
+                error :function(error){
+                    $('#main_alert').css('display','block');
+                    $('#inner_main_alert_hd').html("Error");
+                    $('#inner_main_alert_text').html("Something is wrong");
+                }
+            })
+        }
+
+        $("#days").html(days);
+        $("#hours").html(hours);
+        $("#minutes").html(minutes);
+        $("#seconds").html(seconds);
+
+}
+
+setInterval(function() { countdown_timer(); }, 1000);
+
+
+</script>
+
+{% endblock %}

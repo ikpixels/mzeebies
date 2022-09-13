@@ -1,0 +1,48 @@
+{% load static %}
+	<div class="table-responsive" id="">
+		<table class="table">
+			<thead>
+				<th colspan="2">Item</th>
+				<th>QT</th>
+				<th>Color</th>
+				<th>Size</th>
+				<th>Price</th>
+				<th>Total</th>
+				{% if request.user.is_superuser %}
+				<th>Phone</th>
+				<th>Received</th>
+				{% endif %}
+			</thead>
+			{% for item in order.cart.all %}
+			<tr>
+				<td><img src="{{item.item.file.url}}" height="30"></td>
+				<td>{{item}}</td>
+				<td>{{item.quantity}}</td>
+				<td id="color_size">
+					{% for color in item.item_adds.all %}
+					<a class="p-2" style="background-color:{{color.color}};" href="javascript:void(0);">{{color.color}}</a>
+					{% endfor %}
+				</td>
+				<td id="size_color">
+					{% for color in item.item_adds.all %}
+					<a class="p-2" href="javascript:void(0);">{{color.size}}</a>
+					{% endfor %}
+				</td>
+				<td>{{item.get_item_price}}</td>
+				<td>{{item.get_final_price}}</td>
+				{% if request.user.is_superuser %}
+				<td>{{item.vendor_number}}</td>
+				<td>
+					{% if item.received_from_vendor == False %}
+					<a onclick="received_from_vendor('{{item.id}}');" href="javascript:void(0);">
+					   <img src="{% static 'img/R_btn.png'%}" height="30">
+					</a>
+					{% else %}
+					  <img src="{% static 'img/R.png'%}" height="30">
+					{% endif %}
+				</td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+		</table>
+	    </div>

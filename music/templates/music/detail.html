@@ -1,0 +1,162 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load ratings %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+
+<section>
+    <div id="music_download_html">
+        <div id="inner_music_download_html">
+            <p>Nothing??</p>
+        </div>
+    </div>
+</section>
+
+
+
+<div class="alert container" id="music_video_html">
+        <div id="inner_music_video_html" class="rounded" style="border-bottom:3px solid orange;">
+            <div class="rounded-top p-2" style="background-color:orange;">
+            <a class="close" onclick="video_btn('{{track.id}}');"  href="javascript:void(0);">X</a>
+            <h4 style="color:white;">{{track}} - {{track.album.artist}} | <span style="color:red;"><img height="35" class="rounded" src="{% static 'img/youtube-logo.png' %}"></span></h4>
+             </div>
+            <div class="p-2">
+                {% if track.video %}
+                    <iframe class="rounded mx-2" width="100%" height="100%" src="{{track.split_link}}" frameborder="0" allowfullscreen></iframe>
+                 {% endif %}
+            </div>
+        </div>
+</div>
+
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'music:music' %}">Music</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Detail</a>
+
+
+      <div style="float:right;">
+         <a id="display_category" 
+            onclick="display_category();" 
+            href="javascript:void(0);">
+              <img src="{% static 'img/cat.png' %}" height="20">
+          </a>
+          <a id="hide_category" 
+             href="javascript:void(0);" 
+             onclick="hide_category();">
+              <img src="{% static 'img/cat2.png' %}" height="20">
+           </a>
+      </div>
+    
+   </div><hr>
+</section>
+
+
+
+<section class="my-2" style="background-repeat:no-repeat;background-position: center center;background-size: cover;background:url({% static 'img/mainbg.png'%});">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-2" id="main_category">
+				<div id="music_category">
+					 {% include 'music/category.html' %}
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-lg-10">
+				<section>
+
+
+				    <div class="row">
+				    	 <div class="col-sm-12 col-lg-6">
+                    <div class="my-2">
+
+                      <img src="{{track.file.url}}" class="d-block w-100 rounded-top">
+                      <audio  class="d-block w-100 rounded-bottom" id="ik_audio" controls="controls">
+                        <source src="{{track.mp3.url}}" type="audio/mpeg">
+                      </audio>
+
+                        {% if track.video %}
+                        <div class="py-2 mt-2 rounded-right" id="top_youtube_btn">
+                           <div class="mt-0">
+                                <a id="custom_btn" class="btn_download" onclick="video_btn('{{track.id}}');"  href="javascript:void(0);">
+                                  Watch video
+                                </a>
+                                
+                           </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+               </div>
+               <div class="col-sm-12 col-lg-6">
+                  <div>
+                      <h4 class=""><strong>{{track}} - {{track.album.artist}}</strong></h4>
+                      <small style="color:orange;">Posted {{track.whenpublished}}</small>
+                      <hr>
+
+                      {% if track.album.category == 'Album' %}
+                          <p>Album title : {{track.album.title}}</p>
+                      {% else %}
+                          <p>Single</p>
+                      {% endif %}
+                          <p>Downloads : {{track.vote}} </p>
+
+                      {% if track.sell == True %}
+                         <h4><strong>MK {{track.price}}</strong></h4><hr>
+                         {% ratings track %}
+                         <hr>
+                         <a onclick="download_payment('{{track.id}}');" id="custom_btn" href="javascript:void(0);">Download</a>
+                      {% else %}
+                         <h4><strong>Free</strong></h4><hr>
+                         {% ratings track %}<hr>
+                         <a id="custom_btn3" class="btn_download" onclick="download_btn('{% url 'music:music_detail' track.slug %}', '{{track.id}}');"  href="javascript:void(0);">Download</a>
+                         <a id="custom_btn3" class="btn_download2" style="display:none" download="" href="{{track.mp3.url}}">Start downloading</a>
+                      {% endif %}
+                      
+                  </div>
+               </div>
+
+               <div class="col-sm-12 col-lg-12 rounded mt-2 p-2" style="background-color:rgb(241,246,247);">
+                <h1 class="text-center">Related track/s</h1><hr>
+                <div class="">
+            <div  class="Related">
+              {% for track2 in related_tracks  %}
+                  {% if track2.id is not track.id  %}
+                  
+                <div class="mx-2 my-2">
+                    <div class="mx-2 rounded p-2" style="box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);">
+                         <p style="color:orange;white-space:nowrap;overflow:hidden;text-overflow: ellipsis;"><strong>{{track2}}</strong></p>
+
+                      <a href="{% url 'music:music_detail' track2.slug %}">
+                          <img src="{{track2.file.url}}" class="d-block w-100 rounded-top">       
+                      </a>
+                      <p style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">{{track2.artist}}</p>
+
+                    </div>
+                </div>
+                {% endif %}
+                
+              {% endfor %}
+            </div>
+          </div>
+              </div>
+				    </div>
+				</section>
+		   </div>
+	</div>
+</section>
+
+{% include 'music/products.html' %}
+
+{% include 'music/video_feed.html' %}
+
+{% endblock %}

@@ -1,0 +1,209 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'products:mainshop'%}">{{args}}</a>
+
+      <div style="float:right;">
+         <a id="display_category" 
+            onclick="display_category();" 
+            href="javascript:void(0);">
+              <img src="{% static 'img/cat.png' %}" height="20">
+          </a>
+          <a id="hide_category" 
+             href="javascript:void(0);" 
+             onclick="hide_category();">
+              <img src="{% static 'img/cat2.png' %}" height="20">
+           </a>
+      </div>
+   </div><hr>
+</section>
+
+{% if user_error %}
+<div id="terms_error" class="text-center p-2 my-2 alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+     </button>
+    <p style="color:red;"><strong>{{user_error}}</strong></p>
+</div>
+{% endif %}
+
+
+<div id="removed_suc" style="display:none;" class="text-center p-2 my-2 alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+     </button>
+    <p style="color:green;"><strong>Item removed successfully!!!</strong></p>
+</div>
+
+
+<section style="background-repeat:no-repeat;background-position: center center;background-size: cover;background:url({% static 'img/mainbg.png'%});">
+   <div class="container">
+       <div  class="row">
+
+            <div class="col-sm-12 col-lg-2" id="main_category">
+                <div id="sidebar_category" class="p-2 rounded mb-2">
+                   <h4 style="color:orange;"><strong>Categories</strong></h4><hr>
+                      <a  href="{% url 'products:mainshop'%}">All</a>
+                   {% for category in categories  %}
+                      <a id="{{category.category}}" onclick="backgroundcolor('{{title}}');" href="{% url 'products:mainshop2' category %}">{{category}}</a>
+                   {% endfor %}
+                </div>
+
+                <div id="sidebar_category" class="p-2 rounded my-1">
+                    <a  href="{% url 'products:type' 'Popular'%}">Popular</a>
+                    <a  href="{% url 'products:type' 'Top_Seller'%}">Top Seller</a>
+                    <a  href="{% url 'products:type' 'Top_rated'%}">Top rated</a>
+                    <a  href="{% url 'products:type' 'Item_Deals'%}">Deals</a>
+                </div>
+
+                <div id="sidebar_category" class="p-2 rounded my-1">
+                   <h4 style="color:orange;"><strong>Brand</strong></h4><hr>
+                   {% for brand in brand  %}
+                      <a href="{% url 'products:mainshop2' brand %}">{{brand}}</a>
+                   {% endfor %}
+                </div>
+              
+              {% if area %}
+              <div id="sidebar_category" class="p-2 rounded my-1">
+                   <h4 style="color:orange;"><strong>Your location</strong></h4><hr>
+                   <a href="{% url 'products:mainshop2' district %}">{{district}}</a>
+                   <a href="{% url 'products:mainshop2' area %}">{{area}}</a>
+                </div>
+              {% endif %}
+            </div>
+             
+
+            <div class="col-sm-12 col-lg-10" >
+               <div class="row" id="main_shop_item">
+                   {% for item in items  %}
+                    
+                <div class="col-sm-12 col-lg-3" onmouseout="Quick_btn2('{{item.slug}}');" 
+                     onmouseover="Quick_btn('{{item.slug}}');">
+                    <div class=" mx-2 item_price_tage my-2 rounded" id="main_item3">
+                        
+                        {% if item.file %}
+                        <img src="{{item.file.url}}" class="d-block w-100 rounded-top">
+                        {% else %}
+                        <img src="{% static 'img/item.png '%}" class="d-block w-100 rounded-top">
+                        {% endif %}
+
+                        <div class="px-1" class="">
+                            <p>{{item}}</p>
+                             
+                             
+                             {% if item.new_price %}
+                             
+                             <p><span style="color:red;"><strong>
+                             {{item.category.currency}} </strong></span><span style="color:orange;">{{item.new_price}}</span></p>
+                             {% else %}
+                             <p><span style="color:red;"><strong>
+                             {{item.category.currency}} </strong></span><span style="color:orange;">{{item.price}}</span></p>
+                             {% endif %}
+
+                             {% if deals %}
+                            <!--{% include 'products/timer.html' %}-->
+                             {% endif %}
+                        </div>
+                        
+                        {% if item.new_price is not none %}
+                        <div  style="position:absolute;top:2px; left:2px"> 
+                           <small class="p-1 rounded" style="background:red;color:white;" class="round-circle;">{{item.discount}}% off</small>
+                        </div>
+                        {% endif %}
+
+                        
+
+
+                        {% if item.item_status == "New" %}
+                        <div  style="position:absolute;top:2px; right:2px"> 
+                           <small class="p-1 rounded" style="background:green;color:white;" class="round-circle;">{{item.item_status}}</small>
+                        </div>
+                        {% endif %}
+
+                        <div class="item_price_tage2" id="{{item.slug}}">
+                            <a style="width:100%;" 
+                               class="text-center view2" id="custom_btn" href="{% url 'products:detail' item.slug %}">
+                               <i class="fa fa-eye" aria-hidden="true"></i>
+                               Quick view
+                             </a>
+
+                                
+                               <div id="edit_delete" class="p-2">
+
+                                {% if user.is_superuser %}
+                                  <a class="close"  onclick="delete_shop_item('{% url 'products:delete_item' item.slug %}');" href="javascript:void(0);">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </a>
+                                 
+
+                                  <a class="close" onclick="edit_main_shop_item('{% url 'products:edit' item.slug %}');" href="javascript:void(0);">
+                                    <i class="fas fa-edit"></i>
+                                  </a>
+                                  {% endif %}
+
+                                 {% if item.user == request.user%}
+                                  <a id="make_deal" class="p-1 rounded" href="{% url 'products:deal_payment_form' item.slug %}">Make deal</a>
+                                  {% endif %}
+                               </div>
+                               
+                        </div>
+                    </div>
+                </div>
+
+               {% empty %}
+                   <div class="col-sm-12">
+                      {% include 'index/error.html' %}
+                   </div>
+               {% endfor %}
+               </div>
+
+<!--________________pagination_______________________________-->
+           <div class="col-sm-12 my-4">
+               <div class="pagination">
+                <span class="step-links">
+                    {% if items.has_previous %}
+                        <a href="?page=1">&laquo;</a>
+                        <a href="?page={{ items.previous_page_number }}">
+                          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ items.number }} of {{items.paginator.num_pages }}.
+                    </span>
+
+                    {% if items.has_next %}
+                        <a href="?page={{items.next_page_number }}">
+                          <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                        <a href="?page={{items.paginator.num_pages }}">&raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+           </div>
+<!--__________________________________________________________-->
+            </div>
+        </div>
+
+
+   </div>
+</section>
+
+{% if brand %}
+{% include 'products/brand.html'%}
+{% endif %}
+
+{% endblock %}

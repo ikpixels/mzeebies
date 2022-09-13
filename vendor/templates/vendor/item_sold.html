@@ -1,0 +1,78 @@
+{% load static %}
+<div><a name="sold"></a>
+	<div>
+		<h4 style="color:orange;"><strong>Note:</strong></h4>
+		<p class="text-justify">You need to send listed item/s below to <a href="#agent">our agent/office</a> in your district/area.Once we deliver it, you will receive your money with {{rate.rate}}% less.You will get your money  if you send required item.otherwise we will return your item.</p>
+	</div>
+	<div class="table-responsive">
+	<table class="table table-striped">
+
+		<thead style="background-color:orange;">
+			<th colspan="2">Item</th>
+			<th>Quantity</th>
+			<th>Ref code</th>
+			<th>Date</th>
+			<th>Sent</th>
+		</thead>
+
+		{% for item in item %}
+		    {% if item.cart.being_delivered == False and item.cart.ordered == True %}
+		    <tr>
+		    	<td>
+		    		{% if item.item.file %}
+		    		<img src="{{item.item.file.url}}" height="65">
+		    		{% else %}
+		    		<img src="{% static 'img/item.png' %}" height="65">
+		    		{% endif %}
+		    	</td>
+		    	<td>{{item.item}}</td>
+		    	<td>{{item.quantity}}</td>
+		    	<td>{{item.cart.ref_code}}</td>
+		    	<td>{{item.cart.start_date}}</td>
+		    	<td>
+		    		{% if item.received_from_vendor == False %}
+					    <img src="{% static 'img/R2.png'%}" height="30">
+					{% else %}
+					  <img src="{% static 'img/R.png'%}" height="30">
+					{% endif %}
+		    	</td>
+		    </tr>
+		    {% endif %}
+		{% empty %}
+		    <tr>
+		    	<td colspan="6" style="color:red;font-size:30px;"><strong>Your items is not yet sold!!</strong></td>
+		    </tr>
+		{% endfor%}
+		
+	</table>
+    </div>
+</div>
+
+<div class="row"><a name="agent"></a>
+	<div class="co-sm-12 col-lg-12">
+		<h4>Available agent/s in your area</h4><hr>
+    </div>
+	{% for agent in agents %}
+	  {% if agent.agent %}
+	  <div class="co-sm-12 col-lg-3 ">
+	  	  <div class="text-center p-2 rounded agent_info">
+	  	  	 <img src="{{agent.file.url}}" class="d-block w-100 rounded-circle">
+	  	  	 <h4><strong>{{agent}}</strong></h4>
+	  	  	 <a id="custom_btn2" href="javascript:void(0);" onclick="agent_detail('{{agent.id}}');">Contacts</a>
+	  	  </div>
+	  	  <div class="agent_info_detail rounded text-center p-2" id="agent{{agent.id}}">
+	  	  	 <img src="{{agent.file.url}}" height="64" class="rounded-circle">
+	  	  	 <h4><strong>{{agent}}</strong></h4>
+	  	  	 <p>{{agent.district}} / {{agent.area}}</p>
+	  	  	 <p>{{agent.email}}</p>
+	  	  	 <p>{{agent.phone_number}}</p>
+	  	  	 <a id="custom_btn" href="javascript:void(0);" onclick="agent_detail_hide('{{agent.id}}');">Hide</a>
+	  	  </div>
+	  </div>
+	  {% endif %}
+	{% empty %}
+	    <div class="co-sm-12 col-lg-12">
+	    	 <p style="color:red;font-weight:bold;">Currently there is no agent in your area!!</p>
+	    </div>
+	{% endfor %}
+</div>

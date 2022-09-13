@@ -1,0 +1,27 @@
+<h4 style="color:orange;"><strong>Categories</strong></h4>
+
+<div class="p-2 mb-2 rounded" style="background-color:rgb(241,246,247);">
+	<a href="{% url 'music:music' %}">All music</a>
+	<a href="{% url 'music:music_1' 'Raggie' %}">Raggie</a>
+    <a href="{% url 'music:music_1' 'Dancehall' %}">Dancehall</a>
+    <a href="{% url 'music:music_1' 'House' %}">House</a>
+    <a href="{% url 'music:music_1' 'Afro House' %}">Afro House</a>
+    <a href="{% url 'music:music_1' 'Amapiano' %}">Amapiano</a>
+    <a href="{% url 'music:music_1' 'Gospel' %}">Gospel</a>
+    <a href="{% url 'music:music_1' 'Hip Hop' %}">Hip Hop</a>
+    <a href="{% url 'music:music_1' 'Trap' %}">Trap</a>
+    <a href="{% url 'music:music_1' 'Poetry' %}">Poetry/Poem</a>
+    <a href="{% url 'music:music_1' 'Beats' %}">Beats</a>
+</div>
+
+<div class="p-2 rounded" style="background-color:rgb(241,246,247);">
+    <a href="{% url 'music:music_2' 'New artist' %}">New artist</a>
+    <a href="{% url 'music:music_2' 'Track Top 12' %}">Track Top 12 </a>
+    <a href="{% url 'music:music_2' 'downloads' %}">Most downloaded</a><hr>
+    <a href="{% url 'music:album_list' 'Album'%}">Album</a>
+    <a href="{% url 'music:album_top_ten' 'Album_top_12'%}">Album top 12</a><hr>
+    <a href="{% url 'music:album_list' 'Cover'%}">Cover</a>
+    <a href="{% url 'music:album_top_ten' 'Cover_top_12'%}">Cover top 12 </a><hr>
+    <a href="{% url 'music:album_list' 'Riddim'%}">Riddim</a>
+    <a href="{% url 'music:album_top_ten' 'Riddim_top_12'%}">Riddim top 12</a>
+</div>

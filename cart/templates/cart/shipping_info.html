@@ -1,0 +1,61 @@
+<div id="shipping_info" style="display:none;">
+    <h4 class="mb-2" style="color:orange;"><strong>Shipping Details</strong></h4>
+ <div class="row mb-1">
+
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="First name" name="first_name2">
+                            </div>
+
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="Last name" name="last_name2">
+                            </div>
+
+                        </div>
+
+                        <label>State / Country</label>
+                        <select class="form-control" id="country" name="country2">
+                        {% include 'cart/countries.html' %}
+                        </select>
+
+                        <label>Street Address</label>
+                        <div class="row my-1">
+
+                            <div class="col">
+                                <input required="true" type="text" class="form-control" placeholder="House number and street name" name="house2">
+                            </div>
+
+                            <div class="col">
+                                <input name="suit2" type="text" class="form-control" placeholder="Appartment,suit,unite etc">
+                            </div>
+
+                        </div>
+
+                        <div class="row my-1">
+
+                            <div class="col">
+                                <label>Town / City</label>
+                                <input name="town2" type="text" class="form-control">
+                            </div>
+
+                            <div class="col">
+                                <label>Postcode / ZIP *</label>
+                                <input name="zip2" type="text" class="form-control">
+                            </div>
+
+                        </div>
+
+                        <div class="row my-1">
+
+                            <div class="col">
+                                <label>Phone</label>
+                                <input name="phone2" type="number" class="form-control">
+                            </div>
+
+                            <div class="col">
+                                <label>Email</label>
+                                <input name="email2" type="email" class="form-control">
+                            </div>
+
+                        </div>
+                    
+</div>

@@ -1,0 +1,82 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'products:mainshop' %}">Products</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">cart</a>
+   </div><hr>
+</section>
+
+<section class="mb-4">
+    <div class="container">
+       <div class="table-responsive">
+        <table class="table table-striped">
+            <thead style="background-color:red;color:white;">
+               <th></th>
+               <th>ITEM</th>
+               <th>QT</th>
+               <th>PRICE({{currency.currency}})</th>
+               <th>TOTAL({{currency.currency}})</th>
+            </thead>
+
+            {% for item in order.cart.all %}
+               <tr>
+                  <td>
+                    {% if item.item.file %}
+                    <img src="{{item.item.file.url}}" class="mr-2" height="64">
+                    {% else %}
+                    <img src="{% static 'img/item.png' %}" class="mr-2" height="64">
+                    {% endif %}
+                     <a onclick="delete_item('{% url 'cart:remove_cart' item.id %}');" style="color:red;" href="javascript:void(0);">
+                       <i class="fa fa-trash" aria-hidden="true"></i>
+                     </a>
+                   </td>
+                  <td>{{item}}</td>
+                  <td>{{item.quantity}}</td>
+                  <td>{{item.item.price}}</td>
+                  <td>{{item.get_final_price}}</td>
+               </tr>
+            {% empty %}
+               <tr>
+                  <td colspan="7" style="color:red;font-size:30px;">Your cart is empty...</td>
+               </tr>
+            {% endfor %}
+        </table>
+      </div>
+
+        <div class="text-right">
+           <h1><strong>{{currency.currency}} {{order.get_total}}</strong></h1>
+        </div>
+
+        <div class="row my-4">
+            <div class="col-sm-6">
+              
+            </div>
+            <div class="col-sm-6 text-right">
+                <a id="custom_btn2" class="mr-2 p-2 my-2" href="{% url 'products:mainshop'%}">Continue shoping</a>
+                {% if order.get_total is not 0 %}
+                <a class="p-2 my-2" id="custom_btn" href="{% url 'cart:billing' order.id %}">Proceed to Checkout</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% if brand %}
+{% include 'products/brand.html'%}
+{% endif %}
+
+{% endblock %}

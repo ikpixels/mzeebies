@@ -1,0 +1,57 @@
+{% extends "index/base.html"%}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+{% include 'index/header.html '%}
+
+<section class="my-1">
+	 <div class="container" id="inner_nav">
+	 	  <a href="{% url 'index:index' %}">Home</a>
+	 	  <a href="javascript:void(0);">/</a>
+	 	  <a href="#">Login</a>
+	 </div><hr>
+</section>
+
+
+<section class="mt-2 my-4">
+	 <div class="container">
+	 	 <div class="row rounded" style="background-color:rgb(241,246,247);">
+	 	 	  <div class="col-sm-12 col-lg-6" style="background-color:orange;">
+	 	 	  	  <div class="text-center p-4" >
+	 	 	  	  	  <h1 style="color:white;">New to our website?</h1>
+	 	 	  	  	  <div class="mt-4">
+	 	 	  	  	  	  <a class="p-3" id="custom_btn" href="{% url 'account:register_view'%}">Create account</a>
+	 	 	  	  	  </div>
+	 	 	  	  </div>
+	 	 	  </div>
+
+	 	 	  <div class="col-sm-12 col-lg-5">
+	 	 	  	   <div class='mt-4 p-4 rounded'>
+	  	    		 	       <h4 class="text-center" style="color:orange"><strong>Login</strong></h4><hr>
+	  	    		 	 	{% if error %}
+	  	    		 	 	   <div id="terms_error" class="text-center p-2 my-2 alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    <p style="color:red;">{{error}}</p>
+                                </div>
+	  	    		 	 	{% endif %}
+                            <form><!--pass--></form>
+	  	    		 	 	<form method="POST" class="form-group" id="account_form">
+                                {% csrf_token %}
+                                Username :<input class="form-control" type="text" name="name">
+                                Password :<input class="form-control" type="password" name="pass">
+                                <button class="mt-4" style="border:none;width:100%;" id="custom_btn">Login</button>
+                            </form>
+	  	    		
+	  	    		 	 </div>
+	  	    		 	 <div class="text-center">
+	  	    		 	 	<a style="color:black;" href="{%url 'password_reset'%}">Forgot password?</a>
+	  	    		 	 </div>
+	 	 	  </div>
+	 	 </div>
+	 </div>
+</section>
+
+{% endblock %}

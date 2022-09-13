@@ -1,0 +1,62 @@
+{% extends "index/base.html"%}
+{% load static %}
+
+{% block body %}
+{% include 'index/header.html '%}
+
+<section class="my-1">
+	 <div class="container" id="inner_nav">
+	 	  <a href="{% url 'index:index' %}">Home</a>
+	 	  <a href="javascript:void(0);">/</a>
+	 	  <a href="{% url 'account:dashboard' %}">Myaccount</a>
+	 	  <a href="javascript:void(0);">/</a>
+	 	  <a href="#">Add image</a>
+	 </div><hr>
+</section>
+
+
+<section class="my-4">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-4">
+				<div>
+					<h4>Main image</h4>
+					<img src="{{item.file.url}}" class="img-fluid rounded">
+					<p><strong>{{item}}</strong></p>
+				</div>
+			</div>
+			<div class="col-sm-12 col-lg-8">
+				<div>
+					{% if item.image.all %}
+					<h4>Other images(Max = 5 images)</h4>
+					{% endif %}
+				</div>
+				<div class="row p-2 my-3 rounded" style="border:1px solid black">
+					{% for item in item.image.all %}
+					   <div class="col-sm-12 col-lg-3">
+					   	  <div class="my-2">
+					   	  	{% if item.file %}
+                                <img src="{{item.file.url}}" class="d-block w-100 rounded-top">
+                            {% else %}
+                                <img src="{% static 'img/item.png '%}" class="d-block w-100 rounded-top">
+                            {% endif %}
+					   	  </div>
+					   </div>
+					{% empty %}
+					    <p style="color:red;">Empty | Add more images for this {{item}} </p>
+					{% endfor %}
+				</div>
+				<div class="text-center">
+					{% if item.image.all.count < 4 %}
+					<a class="p-2" id="custom_btn" href="{% url 'products:additemImage' item.slug %}">Add image</a>
+					<a class="p-2" id="custom_btn2" href="{% url 'products:mainshop'%}">Go to shop</a>
+					{% else %}
+					   <p class="my-2" style="color:red;"><strong>Maximum reached !!</strong></p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

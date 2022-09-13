@@ -1,0 +1,84 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="">Contact</a>   
+   </div><hr>
+</section>
+
+
+
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-6">
+				<div class="p-4 rounded mb-2" style="background-color:rgb(241,246,247);">
+					<h4>Contact Information</h4><hr>
+					<p><strong><i class="fa fa-phone mr-2" aria-hidden="true"></i>+(265) 99 33 444 16</strong></p>
+					<p><strong><i class="fa fa-envelope mr-2" aria-hidden="true"></i>ikpixels.py@agmail.com</strong></p>
+					<p><strong><i class="fa fa-map-marker mr-2" aria-hidden="true"></i>Lilongwe/Malawi</strong></p>
+					<p><strong><i class="fa fa-globe mr-2" aria-hidden="true"></i>www.ikpixels.com</strong></p>
+				</div>
+			</div>
+			<div class="col-sm-12 col-lg-6">
+				<div class="p-4 rounded" style="background-color:rgb(241,246,247);">
+					<h4>Get In Touch</h4><hr>
+					<form><!--pass---></form>
+					<form id="contact_form" action="{% url 'index:contact' %}">{% csrf_token %}
+						<div class="row">
+							 <div class="col">
+							 	<label><strong>First name</strong></label>
+							 	<input required="true" class="form-control" type="text" name="first_name">
+							 </div>
+							 <div class="col">
+							 	<label><strong>Last name</strong></label>
+							 	<input required="true" class="form-control" type="text" name="last_name">
+							 </div>
+						</div>
+						<div class="row">
+							 <div class="col">
+							 	<label><strong>Phone</strong></label>
+							 	<input required="true" class="form-control" type="number" name="phone">
+							 </div>
+							 <div class="col">
+							 	<label><strong>Email</strong></label>
+							 	<input class="form-control" type="email" name="email" required="true" placeholder="example@gmail.com">
+							 </div>
+							 
+						</div>
+						<div class="mt-2">
+							<label>
+								<strong>Message</strong>
+							</label>
+							<textarea name="msg" required="true" class="form-control"></textarea>
+						</div>
+						<p id="success_c" style="color:green;display:none;"><strong>Message sent successfuly</strong></p>
+						<p id="contact_error" style="color:red;display:none;"><strong>Something is wrong</strong></p>
+						<div class="mt-2">
+							<button style="width:100%;border:none;" id="custom_btn">Send message</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="mt-4 p-2" style="background-color:rgb(241,246,247);">
+	<div class="container">
+		<iframe  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7708.193737669421!2d34.964107!3d-14.987326999999999!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x30e35e2026db8b1!2sBalaka%20Secondary%20School!5e0!3m2!1sen!2smw!4v1577051871066!5m2!1sen!2smw" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+	</div>
+</section>
+
+
+{% endblock %}

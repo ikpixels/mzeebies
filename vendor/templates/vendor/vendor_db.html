@@ -1,0 +1,96 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'account:dashboard' %}">Account</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Vendor db</a>
+    
+   </div><hr>
+</section>
+
+<section>
+	<div class="container">
+	<div class="row">
+		<div class="col-sm-12 col-lg-10">
+			<div class="table-responsive">
+				<table class="table">
+					<thead style="background-color:orange; color:white;">
+						<th>Vendor</th>
+						<th>Phone</th>
+						<th>Email</th>
+						<th>Location</th>
+						<th>Pass code</th>
+					</thead>
+					{% for vendor in vendor %}
+					  <tr>
+					  	 <td>{{vendor}}({{vendor.user}})</td>
+					  	 <td>{{vendor.phoneWapNum}}</td>
+					  	 <td>{{vendor.user.email}}</td>
+					  	 <td>{{vendor.district}}</td>
+					  	<td>
+					  	   <a id="custom_btn" href="{% url 'products:additem' vendor.id %}">AddItem</a>
+					  	</td>
+					  	 
+					  </tr>
+					{% empty %}
+					  <tr>
+					  	 <td>Empty</td>
+					  </tr>
+					{% endfor %}
+				</table>
+			</div>
+<!--______________________________pagination_______________________________-->
+                            <div class="my-4">
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if vendor.has_previous %}
+                                        <a href="?page=1">&laquo;</a>
+                                        <a href="?page={{ vendor.previous_page_number }}">
+                                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                         </a>
+
+                                        {% endif %}
+
+                                        <span class="current">
+                                        Page {{ vendor.number }} of {{vendor.paginator.num_pages }}.
+                                        </span>
+
+                                        {% if vendor.has_next %}
+                                        <a href="?page={{vendor.next_page_number }}">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="?page={{vendor.paginator.num_pages }}">&raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+<!--___________________________________________________________________-->
+		</div>
+		<div class="col-sm-12 col-lg-2">
+			<div class="p-2 rounded my-1" style="background-color:rgb(241,246,247);">
+			 	<p>Number of registered user : {{user_count}}</p>
+			 </div>
+
+			 <div class="p-2 rounded my-1" style="background-color:rgb(241,246,247);">
+			 	<p>Number of registered vendor : {{vendor_count}}</p>
+			 </div>
+			 <div class="p-2 rounded my-1" style="background-color:rgb(241,246,247);">
+			 	<p>Active vendor accounts : {{active_account_count}}</p>
+			 </div>
+		</div>
+	</div>
+    </div>
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'vendor:vendor' %}">Vendor account</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Bill</a>
+    
+   </div><hr>
+</section>
+
+
+{% if msg_bill %}
+ <div class="alert text-center" id="terms_error">
+ 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+     </button>
+ 	<p style="color:red;">
+ 		<strong>{{msg_bill}}</strong>
+ 	</p>
+ 	<p>Select plan below</p>
+ </div>
+{% endif %}
+
+
+<section class="mb-4">
+	<div class="container">
+		 <div class="row">
+
+		 	  <div class="col-sm-6">
+		 	 	 <div class="text-center rounded p-4 my-2" id="bill_plan">
+		 	 	 	 <h4><strong>Free</strong></h4>
+		 	 		<h3 style="color:orange;"><span style="color:red;">MKW</span> {{plan.price}} </h3>
+		 	 	 	 <ul>
+		 	 	 	 	<li>Allow you to upload only 1 product for 30 days</li>
+		 	 	 	 	<li>No making deals</li>
+		 	 	 	 </ul>
+		 	 	 	 {%  if expired %}
+		 	 	 	  <a style="color:red;" href="javascript:void(0);">Free trial expired</a>
+		 	 	 	 {% else %}
+		 	 	 	 <a onclick="free_plan('{% url 'account:bill' %}')" id="custom_btn" href="javascript:void(0);">Select plan</a>
+		 	 	 	 {% endif %}
+		 	 	 </div>
+		 	 </div>
+
+		 	 <div class="col-sm-6">
+		 	 	 <div class="text-center rounded p-4 my-2" id="bill_plan">
+		 	 	 	 <h4><strong>Silver</strong></h4>
+		 	 		<h3 style="color:orange;"><span style="color:red;">MKW</span> {{plan.silver}} </h3>
+		 	 	 	 <ul>
+		 	 	 	 	<li>Allow you to upload only 20 products per month</li>
+		 	 	 	 	<li>Making deals</li>
+		 	 	 	 </ul>
+		 	 	 	 <a id="custom_btn" href="{% url 'vendor:bill_payment' 'Silver'%}">Select plan</a>
+		 	 	 </div>
+		 	 </div>
+		 	 <div class="col-sm-6">
+		 	 	<div class="text-center rounded p-4 my-2" id="bill_plan">
+		 	 		<h4><strong>Gold</strong></h4>
+		 	 		<h3 style="color:orange;"><span style="color:red;">MKW</span> {{plan.gold}} </h3>
+		 	 		<ul>
+		 	 	 	 	<li>Allow you to upload only 50 products per month</li>
+		 	 	 	 	<li>Making deals</li>
+		 	 	 	 </ul>
+		 	 		<a id="custom_btn" href="{% url 'vendor:bill_payment' 'Gold'%}">Select plan</a>
+		 	 	</div>
+		 	 </div>
+		 	 <div class="col-sm-6">
+		 	 	 <div class="text-center rounded p-4 my-2" id="bill_plan">
+		 	 	 	<h4><strong>Platinum</strong></h4>
+		 	 		<h3 style="color:orange;"><span style="color:red;">MKW</span> {{plan.platinum}} </h3>
+		 	 		<ul>
+		 	 	 	<li>Allow you to upload 100 products per month</li>
+		 	 	 	 	<li>Making deals</li>
+		 	 	 	</ul>
+		 	 	 	<a id="custom_btn" href="{% url 'vendor:bill_payment' 'Platinum'%}">Select plan</a>
+		 	 	 </div>
+		 	 </div>
+		 </div>
+	</div>
+</section>
+
+
+{% endblock %}

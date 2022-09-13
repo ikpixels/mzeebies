@@ -1,0 +1,74 @@
+{% load static %}
+<section class="mt-0 py-4"  id="footer" style="background:url({% static 'img/footer-bg.png'%});background-repeat:no-repeat;background-position: center center;background-size: cover;">
+	<div class="container">
+		 <div class="row">
+		 	 <div class="col-sm-12 col-lg-5">
+		 	 	 <a href="{% url 'index:index'%}">
+		 	 	 	<img src="{% static 'img/logo.png' %}" width="150">
+		 	 	 </a>
+		 	 	 <p class="text-justify mt-2">MzeeBies is the Malawi leading online market place for goods made in Malawi and other countries.MzeeBies digital market hosts  wide range of categories including Apparel & Accessories, Computers & Networking, Consumer Electronics, Toys & Hobbies, Health & Beauty, Bags & Jewelry, Home, Auto,Music and more. </p>
+		 	 </div>
+
+		 	 <div class="col-sm-12 col-lg-3">
+		 	 	 <h4 style="color:orange;">Quick search</h4>
+		 	 	 <a href="{% url 'index:index'%}">Home</a>
+		 	 	 <a href="{% url 'products:mainshop'%}">Shop</a>
+		 	 	 <a href="{% url 'music:music'%}">Music</a>
+		 	 	 <a href="{% url 'music:youtube_feed_list'%}">Videos</a>
+		 	 	 <a href="{% url 'blog:blog'%}">Blog</a>
+		 	 	 <a href="{% url 'index:place_order_list' %}">Needed item/s</a>
+		 	 	 <a href="{% url 'index:about'%}">About</a>
+		 	 	 <a href="{% url 'index:contact'%}">Contacts</a>
+		 	 	 <a href="{% url 'index:terms_conditions'%}">Terms and Conditions</a>
+		 	 	 <a href="{% url 'help:help'%}">Help & Support</a>
+		 	 	 <a href="{% url 'account:google_login'%}">Login</a>
+		 	 	 <a href="{% url 'account:register_view'%}">Register</a>
+
+		 	 	 {% if user.is_authenticated %}
+		 	 	    <a href="{% url 'account:change_password'%}">Change password</a>
+		 	 	 {% endif %}
+		 	 </div>
+
+		 	 <div class="col-sm-12 col-lg-4">
+		 	 	 <h4 style="color:orange;" >Get in touch </h4>
+		 	 	 <a href="#"><i class="fa fa-phone mr-2" aria-hidden="true"></i>+(265) 99 33 444 16</a>
+		 	 	 <a href="#"><i class="fa fa-envelope mr-2" aria-hidden="true"></i>ikpixels.py@gmail.com</a>
+		 	 	 <a href="https://web.facebook.com/IKpixels/"><i class="fa fa-facebook-square mr-2" aria-hidden="true"></i>facebookpage</a>
+
+		 	 	 {% if vendor_account %}
+                        <a class="p-2 rounded text-center mt-4" style="border:2px solid orange;" href="{% url 'vendor:vendor_account'%}"><strong>Your vendor account</strong></a>
+                    {% else %}
+                        <a class="p-2 rounded text-center mt-4" style="border:2px solid orange;" href="{% url 'vendor:vendor'%}"><strong>Become our Vendor</strong></a>
+                    {% endif %}
+		 	 	
+		 	 </div>
+
+		 	 <div class="col-sm-12 col-lg-12">
+		 	 	<hr>
+		 	 	<p style="color:white;">Payment accepted</p>
+		 	 	<div class="" id="payment_methods_icon">
+		 	 		<a class="mr-2" href="https://airtel.mw/airtelmoney/faq">
+		 	 				<img src="{% static 'img/airtel.jpg' %}" class="rounded" height="25">
+		 	 	    </a>
+		 	 	    <a class="mr-2" href="https://www.tnm.co.mw/ui/tnm-october/index.php/mpamba">
+		 	 				<img src="{% static 'img/tnm.jpg' %}" class="rounded" height="25">
+		 	 		</a>
+		 	 		<a href="https://www.paypal.com/mw/webapps/mpp/merchant">
+		 	 				<img src="{% static 'img/paypal.jpg' %}" class="rounded" height="25">
+		 	 		</a>
+		 	 	</div>
+		 	 	
+		 	 </div>
+
+		 </div>
+		 <div class="text-center">
+		 	<hr>
+            <a href="http://www.ikpixels.com/">
+            	<img height="30" src="{% static 'img/ik.png'%}">
+            </a>
+		 	<p><a href="http://www.ikpixels.com/"> Powered by IKpixels</a> Copyright &copy;<script>document.write(new Date().getFullYear());</script>, All rights reserved</p>
+		 			 </div>
+	</div>
+</section>
+
+

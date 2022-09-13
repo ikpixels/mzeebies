@@ -1,0 +1,94 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+{% include 'index/header.html '%}
+
+<section class="my-1">
+	 <div class="container" id="inner_nav">
+	 	  <a href="{% url 'index:index' %}">Home</a>
+	 	  <a href="javascript:void(0);">/</a>
+	 	  <a href="#">Myaccount</a>
+	 </div><hr>
+</section>
+
+
+<section class="my-4">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-2" id="dashboard_menu">
+
+				{% if user.is_superuser %}
+				<div >
+					<h4 class="my-2"><strong>{{request.user}}</strong></h4><hr>
+					<a href="{% url 'account:dashboard'%}">Orders</a>
+					<hr>
+					<a href="{% url 'account:Dashboard2' 'delivered'%}">
+					Derevered orders</a>
+					<hr>
+					<a href="{% url 'cart:verify_p'%}">Mobile payments</a>
+					<hr>
+					<a href="{% url 'vendor:bill_verification'%}">Vendor bills</a><hr>
+					<a href="{% url 'vendor:deal_payment_verification'%}">Deal payment</a>
+					<hr>
+					{% if vendor_account %}
+		 	 	        <a href="{% url 'vendor:vendor_account'%}">Vendor account</a>
+		 	 	   {% else %}
+		 	 	        <a href="{% url 'vendor:vendor'%}">Become our Vendor</a>
+		 	 	   {% endif %}
+		 	 	   <hr>
+					<a href="{% url 'products:category_v' %}">Add products</a><hr>
+					<a href="{% url 'products:upload_brand' %}">Add products brand</a>
+				</div>
+				{% endif %}
+			</div>
+
+			<div class="col-sm-12 col-lg-10" id="dashboard_content">
+				<div id="bill_verification">
+					<table class="table">
+						<thead style="background-color:orange">
+							<th>Name</th>
+							<th>Ref</th>
+							<th>Period</th>
+							<th>payment</th>
+							<th>Amount(MK)</th>
+			                <th></th>
+						</thead>
+					
+					{% for deal in deal_payment %}
+					  <tr>
+					  	 <td>{{deal}}</td>
+					  	 <td>{{deal.ref_code}}</td>
+					  	 <td>{{deal.period}}</td>
+
+					  	 {% if deal.payment_method == "airtel" %}
+					  	 <td>
+					  	 	<img src="{% static 'img/airtel.jpg' %}" height="20" class="rounded">
+					  	 </td>
+					  	 {% else %}
+					  	  <td>
+					  	  	 <img src="{% static 'img/tnm.jpg' %}" height="20" class="rounded">
+					  	  </td>
+					  	 {% endif %}
+
+					  	 <td>{{deal.amount}}</td>
+					  	 <td>
+					  	 	<a onclick="deal_activate('{{deal.id}}');" href="javascript:void(0);">Verify</a>
+					  	 </td>
+					  	 
+					  </tr>
+					{% empty %}
+					   <tr>
+					   	  <td colspan="6" style="color:red;font-size:30px;">
+					   	  	 <strong>You have no deal payments...</strong>
+					   	  </td>
+					   </tr>
+					{% endfor %}
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

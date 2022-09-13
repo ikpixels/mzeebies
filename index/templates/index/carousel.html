@@ -1,0 +1,85 @@
+{% load static %}
+<div class="container" id="ik_header_contacts">
+
+	 <div id="header_contacts">
+	 	<a class="mr-4" href=""><i class="fa fa-phone mr-2" aria-hidden="true"></i>+(265) 99 33 444 16</a>
+	 	<a href=""><i class="fa fa-envelope mr-2" aria-hidden="true"></i>ikpixels.py@gmail.com</a>
+
+	 	{% if user.is_authenticated  %}
+	 	        {% if user.is_superuser  %}
+                    <div style="float:right;" class="logout_menu">
+                    	<a  href="javascript:void(0);"><i class="fa fa-user mr-2" aria-hidden="true"></i>{{request.user}}</a>
+                    	<div class="logout_content p-2 rounded-bottom">
+                    		<a href="{% url 'account:dashboard'%}">Dashboard</a>
+                    		<a href="{% url 'account:logout_view'%}">
+                    			<strong>Logout</strong>
+                    		</a>
+                    	</div>
+                    </div>
+                {% else %}
+                    <div style="float:right;" class="logout_menu">
+                    	<a href="javascript:void(0);"><i class="fa fa-user mr-2" aria-hidden="true"></i>{{request.user}}</a>
+                    	<div class="logout_content p-2 rounded-bottom">
+                    		<a href="{% url 'account:customer_account'%}">Account</a>
+                    		<a href="{% url 'account:logout_view'%}">
+                    			<strong>Logout</strong>
+                    		</a>
+                    	</div>
+                    </div>
+                {% endif %}
+        {% else %}
+            <a style="float:right;" href="{% url 'account:google_login'%}"><i class="fa fa-user mr-2" aria-hidden="true"></i>Login</a>
+        {% endif %}
+
+	 	<a style="float:right;color:red;" href="{% url 'cart:cart_view' %}"><strong><i class="fa fa-shopping-cart mr-2" aria-hidden="true">Your Cart({{cart_count}})</i></strong></a>
+	 </div>
+
+	 <div class="row">
+	 	 <div class="col-sm-12 mt-2 p-2 rounded " id="shop_menu">
+	 	 	<a href="{% url 'index:index' %}">
+	 	 		<img src="{% static 'img/logo.png' %}" width="150">
+	 	 	</a>
+	 	 	<div style="float:right;" class="menu_bar">
+	 	 		<a href="javascript:void(0);" onclick="displaynav();">
+	 	 			<img src="{% static 'img/ikmenu.png' %}" width="60">
+	 	 		</a>
+	 	 	</div>
+	 	 	<a id="search_btn" class="mr-3" style="float:right;color:white;" href="javascript:void(0);">
+	 	 		<i class="fa fa-search" aria-hidden="true"></i>
+	 	 	</a>
+	 	 	
+	 	 	
+	 	 </div>
+
+	 	 <div class="col-sm-12 p-2 rounded-bottom" id="search_menu">
+	 	 	    <form method="GET">
+                    <input type="search"placeholder="{{search_placeholder}}" aria-label="Search" name="q">
+                </form>
+	 	 </div>
+
+	 	 <div class="col-sm-12 col-lg-6">
+	 	 	 <div class="text-center animatedParent" id="Welocome_msg">
+	 	 	 	<h1 class='animated rotateIn'><strong>Welcome to <span style="color:orange;">MzeeBies</span></strong></h1>
+	 	 	 	<p class='animated fadeInLeft' style="color:white;"><strong>Shop is fun</strong></p>
+	 	 	 	<h4 class='animated fadeInRight'><strong>Browse Our Premium Products</strong></h4>
+	 	 	 	<div class="mt-4 p-4 animated flipInX">
+	 	 	 		<a href="{% url 'products:mainshop' %}" class="p-3 rounded animated flip" id="custom_btn">Browse Now</a>
+	 	 	 	</div>
+	 	 	 </div>
+	 	 </div>
+
+	 	 <div class="col-sm-12 col-lg-6 ">
+	 	 	    <div class="multiple-items" id="home_img">
+                     {% for timer in popular %}
+                     {% if timer.file %}
+                     <div class="rounded p-2 mb-2">
+                        <a href="{% url 'products:detail' timer.slug %}">
+                        	 <img src="{{timer.file.url}}" class="img-fluid rounded">
+                        </a>
+                     </div>
+                     {% endif %}
+                     {% endfor %}
+                </div>
+	 	 </div>
+	 </div>
+</div>

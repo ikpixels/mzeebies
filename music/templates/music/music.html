@@ -1,0 +1,142 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Music</a>
+
+
+      <div style="float:right;">
+         <a id="display_category" 
+            onclick="display_category();" 
+            href="javascript:void(0);">
+              <img src="{% static 'img/cat.png' %}" height="20">
+          </a>
+          <a id="hide_category" 
+             href="javascript:void(0);" 
+             onclick="hide_category();">
+              <img src="{% static 'img/cat2.png' %}" height="20">
+           </a>
+      </div>
+    
+   </div><hr>
+</section>
+
+
+<!--<section class="my-2" id="brand_desktop_view">
+    {% include 'music/album.html'%}
+</section>-->
+
+<section class="my-2" style="background-repeat:no-repeat;background-position: center center;background-size: cover;background:url({% static 'img/mainbg.png'%});">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-2" id="main_category">
+				<div id="music_category">
+					  {% include 'music/category.html' %}
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-lg-10">
+				<section>
+				    <div class="row main_track_list">
+				    	 {% for track in tracks %}
+				    	    <div class="col-sm-12 col-lg-3">
+				    	    	<div class="my-2 p-2 rounded" style="box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);">
+                      <p style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis; color:orange"><strong>{{track}}</strong></p>
+				    	    		<a href="{% url 'music:music_detail' track.slug %}">
+                         <div style="position:relative;">
+                          <img src="{{track.file.url}}" class="d-block w-100 rounded"> 
+                          <div id="inner_music_area">
+                             <a class="rounded-right" id="custom_btn"  href="{% url 'music:music_detail' track.slug %}">{{track.album.category}}</a>
+                          </div>
+                          </div>      
+                      </a>
+                      <p style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis;">{{track.artist}}</p>
+                      <a style="font-size:15px;color:orange;" class="mt-0" href="javascript:void(0);">{{track.whenpublished}}</a>
+
+                      
+				    	    	</div>
+
+				    	    </div>
+
+				    	 {% empty %}
+				    	     <div class="col-sm-12">
+                      {% include 'index/error.html' %}
+                    </div>
+				    	 {% endfor %}
+				    </div>
+
+
+            <div class="row" id="main_track_list22" >
+                   {% for track in tracks %}
+                  <div class="col-sm-12 my-2" >
+                      <a href="{% url 'music:music_detail' track.slug %}">
+                      <div class="media rounded p-2" style="box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)">
+
+                        <img class="mr-3" height="64" src="{{track.file.url}}">
+                        
+                        <div class="media-body">
+                             <a style="font-size:15px;" class="close" href="javascript:void(0);">{{track.whenpublished}}</a>
+                             <a id="custom_btn"  href="javascript:void(0);">{{track.album.category}}</a>
+                             <a href="{% url 'music:music_detail' track.slug %}">
+                               <p style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:black;" class="mt-1">{{track}} - <span style="color:orange;">{{track.artist}}</span></p>
+                             </a> 
+                         </div>
+                       </div>
+                       </a>
+                  </div>
+               {% empty %}
+                   <div class="col-sm-12">
+                      {% include 'index/error.html' %}
+                    </div>
+               {% endfor %}
+            </div>
+
+
+<!--______________________________pagination_______________________________-->
+                            <div class="my-4">
+                                <div class="pagination">
+                                    <span class="step-links">
+                                        {% if tracks.has_previous %}
+                                        <a href="?page=1">&laquo;</a>
+                                        <a href="?page={{ tracks.previous_page_number }}">
+                                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                         </a>
+
+                                        {% endif %}
+
+                                        <span class="current">
+                                        Page {{ tracks.number }} of {{tracks.paginator.num_pages }}.
+                                        </span>
+
+                                        {% if tracks.has_next %}
+                                        <a href="?page={{tracks.next_page_number }}">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="?page={{tracks.paginator.num_pages }}">&raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+<!--___________________________________________________________________-->
+				</section>
+		   </div>
+	</div>
+</section>
+
+{% include 'music/products.html' %}
+{% include 'music/video_feed.html' %}
+
+
+
+
+{% endblock %}

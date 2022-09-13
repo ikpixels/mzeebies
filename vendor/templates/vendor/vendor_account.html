@@ -1,0 +1,222 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'account:customer_account' %}">Account</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Vendor account</a>
+    
+   </div><hr>
+</section>
+
+{% if vendor_error %}
+<div id="terms_error" class="text-center p-2 my-2 alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+     </button>
+    <p style="color:red;"><strong>{{vendor_error}}</strong></p>
+</div>
+{% endif %}
+
+
+<section class="my-4">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-lg-2" id="dashboard_menu">
+				<div >
+					<h4 class="my-2"><strong>{{request.user}}</strong></h4><hr>
+					<a class="" href="{% url 'products:mainshop2' profile.fullName %}">Your products</a><hr>
+                    <a class="" href="{% url 'music:user_music'%}">Your Music</a><hr>
+					<div class="alert mt-2" style="background-color:rgb(241,246,247);">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                           <span aria-hidden="true">×</span>
+                        </button><hr>
+						<i>To make deals   click the <a href="{% url 'products:mainshop2' profile.fullName %}">button</a> above.After touching each item you will see icons</i>
+					</div>
+          
+					{% if categories %}
+
+					  {% if user_bill.due_date != None %}
+					  <a href="{% url 'products:additem_msg'%}">Add product
+					  </a><hr>
+					  <a href="{% url 'music:create_album' %}">Add music album</a><hr>
+					  {% else %}
+					   <a href="{% url 'account:bill'%}">Add product</a><hr>
+					   <a href="{% url 'account:bill'%}">Add music album</a><hr>
+					  {% endif %}
+
+					{% endif %}
+
+					 {% if user_bill.due_date != None %}
+					  <a href="{% url 'blog:AddBlog' %}">Add Blog</a><hr>
+					  {% else %}
+					   <a href="{% url 'account:bill'%}">Add Blog</a><hr>
+					  {% endif %}
+
+                   <a href="{% url 'account:bill'%}">Pay bills</a><hr>
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-lg-10 p-2" id="dashboard_content">
+			    <div class="container" id="item_sold">
+			    	<div class="row">
+			    		<div class="col-sm-12 col-lg-4">
+			    			<div>
+			    				<img src="{{profile.file.url}}" height="200" class="rounded">
+			    			</div>
+			    		</div>
+			    		<div class="col-sm-12 col-lg-8">
+			    			<div id="get_vendor_id" accesskey="{{user_bill.id}}">
+			    				<h4><strong>{{profile}}</strong></h4><hr>
+						 	    <p><i class="fa fa-whatsapp mr-2" aria-hidden="true"></i> {{profile.phoneWapNum}}</p>
+						 	    <p><i class="fa fa-map-marker mr-2" aria-hidden="true"></i>{{profile.district}}/{{profile.area}}</p>
+						 	    <p><strong>Secret Code: {{profile.secretKey}}</strong></p>
+			    			</div>
+			    		</div>
+			    		<div class="col-lg-12 p-2" id="due_date_time" accesskey='{{user_bill.due_date|date:"U"}}'>
+						 <hr>
+						 <a class="mr-2 p-1 rounded mt-1" href="{% url 'products:mainshop2' profile.fullName %}">You uploaded {{count}} item/s</a>
+
+						 {% if user_bill.plan %}
+						    {% if user_bill.due_date %}
+						    <a class="mr-2 p-1 rounded mt-1" href="javascript:void(0);">Your in {{user_bill.plan}} plan</a>
+						    {% else %}
+						    <a class="mr-2 p-1 rounded mt-1" href="javascript:void(0);" style="color:red;">Your in {{user_bill.plan}} plan</a>
+						    {% endif %}
+						 {% endif %}
+                         
+                         {% if user_bill.due_date %}
+						 <a class="p-1 rounded mt-1"   id="due_date_time2"    
+						    href="javascript:void(0);">
+						 	<span id="days_"></span> Day/s:
+						 	<span id="hours_"></span>:
+						 	<span id="minutes_"></span>:
+						 	<span id="seconds_"></span>
+						 	Remaining
+						 </a>
+						 {% else%}
+						  <a class="p-1 rounded mt-1"   id="due_date_time2"  href="" style="color:red;">Not activated</a>
+						  <small class="well" style="color:red;">Wait for activation if you paid your bill or <a style="border:none;" href="{% url 'account:bill'%}">pay your bill now</a></small>
+						 {% endif %}
+						</div>
+
+			    		<div class="col-lg-12 p-2">
+						 <hr>
+
+						 <p class="text-justify">Your Money will be transfered to the account bellow after each transaction.Take not that, you will receive your money after our customer receive item from you.<a id="learn_more" href="javascript:void(0);"><strong>Learn more</strong></a><span id="learn_detail" style="display:none;">Once our customer buy your item/s, you will receive list of items that you will send to our office/agent in your area.When we get item/s from you, we will deliver it to required customer.Then the money will be transfered to your back account with {{rate.rate }}% less</span><a id="learn_hide" style="display:none;" href="javascript:void(0);"><strong>Hide</strong></a></p>
+                         <div class="table-responsive">
+						 <table class="table">
+						 	 <thead>
+						 	 	<th colspan="2">Bank account details</th>
+						 	 </thead>
+						 	 <tr>
+						 	 	<td>Account Name</td>
+						 	 	<td>{{profile.bankAccName}}</td>
+						 	 </tr>
+						 	 <tr>
+						 	 	<td>Account Branch</td>
+						 	 	<td>{{profile.bankAccBrach}}</td>
+						 	 </tr>
+						 	 <tr>
+						 	 	<td>Bank name</td>
+						 	 	<td>{{profile.bankAccType}}</td>
+						 	 </tr>
+						 	 <tr>
+						 	 	<td>Account Number</td>
+						 	 	<td>{{profile.bankAccNumm}}</td>
+						 	 </tr>
+						 </table>
+						</div>
+						
+						<p>For service, our company deduct five percent for each transaction you made through our site.</p>
+                        <a id="custom_btn" class="p-2 my-2" href="{% url 'vendor:edit_vendor' profile.id %}">Edit profile</a>
+					</div>
+			    	</div>
+			    </div>
+			</div>
+
+		</div>
+
+		<div id="sold_item_btn" >
+			<a style="color:white;background-color:green;" class="p-1 mt-1 rounded"  href="#sold" onclick="item_sold('{% url 'vendor:items_sold' %}');">
+
+				<strong>
+					{% if item_sold %}
+					<i  class="fa fa-envelope" aria-hidden="true"></i>
+					Item/s sold({{item_sold}})
+					{% else %}
+					<i class="fa fa-envelope" aria-hidden="true"></i>
+					No item sold
+					{% endif %}
+				</strong>
+			</a>
+		</div>
+	</div>
+</section>
+
+
+<script>
+function countdown_timer(args) {
+   var dj_time = $("#due_date_time").attr('accesskey');
+   var vendor_id = $("#get_vendor_id").attr('accesskey');
+   var endTime=new Date( dj_time * 1000);
+    endTime = (Date.parse(endTime) / 1000);
+
+        var now = new Date();
+        now = (Date.parse(now) / 1000);
+
+        var timeLeft = endTime - now;
+
+        
+
+        var days = Math.floor(timeLeft / 86400);
+        var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+        var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600 )) / 60);
+        var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+
+        if (hours < "10") { hours = "0" + hours; }
+        if (minutes < "10") { minutes = "0" + minutes; }
+        if (seconds < "10") { seconds = "0" + seconds; }
+
+        if (days == 0 && hours == 0 && seconds == 0 || days < 0){
+            
+            $.ajax({
+                type  : "GET",
+                url   : '/vendor/vendor_account/',
+                data  : {'data':vendor_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        
+
+                 success : function(response){
+                    //alert('success');
+                   
+                },
+                error :function(error){
+                    alert("Something is wrong");
+                }
+            })
+        }
+
+
+        $("#days_").html(days);
+        $("#hours_").html(hours);
+        $("#minutes_").html(minutes);
+        $("#seconds_").html(seconds);
+
+}
+
+setInterval(function() { countdown_timer(); }, 1000);
+
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% load static %}
+<section class=" p-2" style="background:url({% static 'img/music_bg.png'%});background-repeat:no-repeat;background-position: center center;background-size: cover;">
+   <div class="container">
+       <h1 class="text-center">Products</h1>
+       <div  class="brand_ik">
+            
+            {% for item in popular  %}
+                <div class="mx-2 my-2">
+                    <div class="mx-2 rounded text-center" style="box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);">
+                        <a href="{% url 'products:detail' item.slug %}">
+                          <img src="{{item.file.url}}" class="img-fluid rounded">
+                        </a> 
+                        <p><strong>{{item}}</strong></p>
+                        {% if item.new_price %}
+                             
+                             <p><span style="color:red;"><strong>
+                             {{item.category.currency}} </strong></span><span style="color:orange;">{{item.new_price}}</span></p>
+                             {% else %}
+                             <p><span style="color:red;"><strong>
+                             {{item.category.currency}} </strong></span><span style="color:orange;">{{item.price}}</span></p>
+                             {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center my-4">
+                   <a class="p-2"  id="custom_btn" href="{% url 'products:mainshop'%}">View all products</a>
+        </div>
+   </div>
+</section>

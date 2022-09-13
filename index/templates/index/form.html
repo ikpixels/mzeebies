@@ -1,0 +1,92 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'vendor:vendor_account'%}">Myaccount</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">{{title}}</a>
+   </div><hr>
+</section>
+
+
+<section class="my-2" id="form_area">
+   <div class="container">
+       <div class="row">
+          <div class="col-sm-12 col-lg-4 text-center p-2" style="background-color:orange;">
+             <h1 style="color:white;"><strong>{{title}}</strong></h1>
+
+             {% if bill %}
+               <hr>
+               <h4><strong>Your in {{bill.plan}} plan</strong></h4>
+               <p>Required items = {{bill.item_num}}</p>
+               <p>Added item/s = {{bill.item_num2}}</p>
+             {% endif %}
+
+             {% if brand %}
+                <hr>
+                <div class="row">
+                    {% for brand in brand %}
+                    <div class="col-sm-12 col-lg-3 my-2">
+                        <div>
+                           <img src="{{brand.file2.url}}" class="img-fluid rounded">
+
+                        </div>
+                    </div>
+                    {% endfor%}
+                    
+                </div>
+                <div class="text-center mt-4">
+                        <a id="custom_btn" href="">Add more</a>
+                    </div>
+             {% endif%}
+          </div>
+
+          <div class="col-sm-12 col-lg-8 p-2" style="background-color:#f2f2f2;">
+              <form id="formUpload" method="POST" 
+                    enctype="multipart/form-data" id="formUpload">
+                 {% csrf_token %}
+                 {{form.media}}
+                 {{form|crispy}}
+              </form>
+          </div>
+       </div>
+   </div>
+</section>
+
+<section class="my-4" id="ik_modal">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-sm-12 col-lg-4 text-center">
+          <h4>Crop image</h4>
+      </div>
+
+      <div class="col-sm-12 col-lg-4 rounded p-2" >
+        <img src="" id="ik_image" class="img-fluid">
+        <div class="text-center mt-4" id="crop_btn">
+          <a class="mr-2" id="minus" href="javascript:void(0)">
+                        <i class="fa fa-search-minus" aria-hidden="true"></i>
+                    </a>
+          <button id="send">
+                       Crop and save
+          </button>
+                    <a class="ml-2" id="plus" href="javascript:void(0)">
+                        <i class="fa fa-search-plus" aria-hidden="true"></i>
+                    </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+{% include 'index/header.html '%}
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'account:customer_account' %}">Account</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">Add item</a>
+    
+   </div><hr>
+</section>
+
+<section>
+	<div  class="container">
+		 <h3>Send your item to admin via whatsapp number or click whatsapp button or send via email bellow</h3>
+		 <p>Include the following information:</p>
+		 <ul>
+		 	<li>Your username</li>
+		 	<li>Item name</li>
+		 	<li>Item Brand(OPTIONAL)</li>
+		 	<li>Available colors (OPTIONAL)</li>
+		 	<li>Available size (OPTIONAL) </li>
+		 	<li>Old price</li>
+		 	<li>New price(OPTIONAL)</li>
+		 	<li>Stock(Available number of items)</li>
+		 	<li>Discription (OPTIONAL) </li>
+		 	<li>Good quality product image(Maxmum 4 images for one item)</li>
+		 	<li>Tell us if you want our customer to buy it online or not</li>
+		 </ul>
+		 <p>Your item will be uploaded if and only if your account is active.account is active when you paid for it.Your item will be visible to our customer if you paid for your vendor acount.</p>
+
+		 <h4>Whatsapp number : {{contacts_info.phonenumber}}</h4>
+		 <div id="additem_wap" accesskey="{{contacts_info.phonenumber}}"></div>
+		 <h4>Email address   : {{contacts_info.email}}</h4>
+	</div>
+</section>
+
+
+ {% if agents %}
+<section class="my-2">
+      <div class="container">
+       <h4 class="text-center"><strong>Our Team</strong></h4><hr>
+       <div  class="brand_ik">
+               {% for agent in agents %}
+	  <div class="mx-2">
+	  	  <div class="text-center p-2 rounded agent_info">
+	  	  	 <img src="{{agent.file.url}}" class="d-block w-100 rounded-circle">
+	  	  	 <h4><strong>{{agent}}</strong></h4>
+	  	  	 <p>{{agent.title}}</p>
+	  	  	 <a id="custom_btn2" href="javascript:void(0);" onclick="agent_detail('{{agent.id}}');">Contact</a>
+	  	  	 
+	  	  	 <div class="agent_info_detail rounded text-center p-2 " id="agent{{agent.id}}">
+	  	  	 {% if request.user.is_superuser %}
+	  	  	 <a class="close" href="{% url 'vendor:edit_agent' agent.id %}">Edit</a>
+	  	  	 {% endif %}
+	  	  	 <img src="{{agent.file.url}}" height="64" class="rounded-circle">
+	  	  	 <h4><strong>{{agent}}</strong></h4>
+	  	  	 <p>{{agent.district}} / {{agent.area}}</p>
+	  	  	 <p>{{agent.email}}</p>
+	  	  	 <p>{{agent.phone_number}}</p>
+	  	  	 <a id="custom_btn" href="javascript:void(0);" onclick="agent_detail_hide('{{agent.id}}');">Hide</a>
+	  	  </div>
+	  	  </div>
+	  	  
+	  </div>
+	{% empty %}
+	    <div class="co-sm-12 col-lg-12">
+	    	 <p style="color:red;font-weight:bold;">Currently there is no agent in your area!!</p>
+	    </div>
+	{% endfor %}
+        </div>
+   </div>
+</section>
+ {% endif %}
+
+{% endblock %}

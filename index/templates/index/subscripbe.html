@@ -1,0 +1,38 @@
+{% load static %}
+<style type="text/css">
+{% if music_image %}
+   	  #subscribe{
+   	  	background:url({% static 'img/music.jpg'%});
+   	  }
+{% else %}
+   	#subscribe{
+   	  	background:url({% static 'img/sub.png'%});
+   	  }
+{% endif %}
+</style>
+
+<section id="subscribe" style="background-repeat:no-repeat;background-position: center center;background-size:cover;background-attachment: fixed;">
+	<div class="container">
+		<div class="row">
+			 <div class="col-sm-12 col-lg-3">
+			 	<h4><strong>Subscribe to get our news letter</strong></h4>
+			 </div>
+
+			 <div class="col-sm-12 col-lg-6">
+
+			 	 <form id="Subscribe-form">
+                    <input class="p-2" type="email" id="Subscribe_email" name="email" placeholder="example@gmail.com" required="true">
+                </form>
+
+                 <div class="mt-2" id="subscr_info">
+                 </div>
+
+			 </div>
+
+			 <div class="col-sm-12 col-lg-3 mt-2">
+			 	<a id="Subscribe_btn" class="mr-2" href="javascript:void(0);">Subscribe</a>
+			 	<a id="Unsubscribe_btn" href="javascript:void(0);">Unsubscribe</a>
+			 </div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,36 @@
+<section id="">
+				    <div class="row">
+				    	 {% for track in tracks %}
+				    	    <div class="col-sm-12 col-lg-3">
+				    	    	<div class="my-2 main_music_outer" onmouseover="music_manager('{{track.slug}}');" onmouseout="music_manager2('{{track.slug}}');">
+                      <p style="color:orange;"><strong>{{track}}</strong></p>
+				    	    		<a href="{% url 'music:music_detail' track.slug %}">
+                          <img src="{{track.file.url}}" class="d-block w-100 rounded">       
+                      </a>
+				    	    
+
+                      <div class="main_music_inner rounded p-2" id="ikmusic_{{track.slug}}">
+                          <audio class="d-block w-100 rounded mb-4" id="ik_audio" controls="controls">
+                             <source src="{{track.mp3.url}}" type="audio/mpeg">
+                          </audio><hr>
+                          
+                          {% if track.allowed == False %}
+                          <a onclick="Aprove_music('{{track.id}}');" id="custom_btn" href="javascript:void(0);">Approve</a><hr>
+                          {% endif %}
+
+                          <a onclick="disapprove_music('{{track.id}}');" id="custom_btn2" href="javascript:void(0);">Disapprove</a><hr>
+                          <a onclick="delete_music('{{track.id}}');" href="javascript:void(0);">Delete</a>
+                      </div>
+                      
+				    	    	</div>
+
+
+
+				    	    </div>
+				    	 {% empty %}
+				    	     <div class="col-sm-12">
+                      {% include 'index/error.html' %}
+                    </div>
+				    	 {% endfor %}
+				    </div>
+				</section>

@@ -1,0 +1,47 @@
+{% extends "index/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    
+{% block body %}
+
+{% include 'index/header.html '%}
+
+
+<section class="my-1">
+   <div class="container" id="inner_nav">
+      <a href="{% url 'index:index' %}">Home</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="{% url 'vendor:vendor_account'%}">Myaccount</a>
+      <a href="javascript:void(0);">/</a>
+      <a href="#">{{title}}</a>
+   </div><hr>
+</section>
+
+
+<section class="my-2" id="form_area">
+   <div class="container">
+       <div class="row">
+          <div class="col-sm-12 col-lg-4 text-center p-2" style="background-color:orange;">
+             <h1 style="color:white;"><strong>{{title}}</strong></h1>
+
+              
+          </div>
+
+          <div class="col-sm-12 col-lg-8 p-2" style="background-color:#f2f2f2;">
+              <form id="formUpload" method="POST" 
+                    enctype="multipart/form-data" id="formUpload">
+                 {% csrf_token %}
+                 {{form.media}}
+                 {{form|crispy}}
+                  <button id="send">
+                       Save
+                 </button>
+              </form>
+          </div>
+       </div>
+   </div>
+</section>
+
+{% endblock %}

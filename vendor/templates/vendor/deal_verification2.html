@@ -1,0 +1,43 @@
+{% load static %}
+<div id="">
+					<table class="table">
+						<thead style="background-color:orange">
+							<th>Name</th>
+							<th>Ref</th>
+							<th>Period</th>
+							<th>payment</th>
+							<th>Amount(MK)</th>
+			                <th></th>
+						</thead>
+					
+					{% for deal in deal_payment %}
+					  <tr>
+					  	 <td>{{deal}}</td>
+					  	 <td>{{deal.ref_code}}</td>
+					  	 <td>{{deal.period}}</td>
+
+					  	 {% if deal.payment_method == "airtel" %}
+					  	 <td>
+					  	 	<img src="{% static 'img/airtel.jpg' %}" height="20" class="rounded">
+					  	 </td>
+					  	 {% else %}
+					  	  <td>
+					  	  	 <img src="{% static 'img/tnm.jpg' %}" height="20" class="rounded">
+					  	  </td>
+					  	 {% endif %}
+
+					  	 <td>{{deal.amount}}</td>
+					  	 <td>
+					  	 	<a onclick="deal_activate('{{deal.id}}');" href="javascript:void(0);">Verify</a>
+					  	 </td>
+					  	 
+					  </tr>
+					{% empty %}
+					   <tr>
+					   	  <td colspan="6" style="color:red;font-size:30px;">
+					   	  	 <strong>You have no deal payments...</strong>
+					   	  </td>
+					   </tr>
+					{% endfor %}
+					</table>
+				</div>
